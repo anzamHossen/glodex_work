@@ -23,7 +23,6 @@
                                             <th>Name</th>
                                             <th>Contact</th>
                                             <th>Email</th>
-                                            <th>Company</th>
                                             <th>Created By</th>
                                         </tr>
                                     </thead>
@@ -49,7 +48,6 @@
                                                 </td>
                                                 <td>{{ $user->phone ?? 'Not Added' }}</td>
                                                 <td>{{ $user->email ?? 'Not Added' }}</td>
-                                                <td>....</td>
                                                 <td>
                                                    {{ $user->creator->name ?? 'Not Added' }}
                                                 </td>

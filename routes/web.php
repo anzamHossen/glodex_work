@@ -49,7 +49,7 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::get('/pending-agent-user',  'pendingAgentUser')->name('pending_agent_user');
         Route::post('/save-agent', 'saveAgent')->name('save_agent');
         Route::get('/active-agent-user',  'activeAgentUser')->name('active_agent_user');
-        Route::get('/pending-student-user',  'pendingStudentUser')->name('pending_student_user');
+        Route::get('/pending-applicant-user',  'pendingApplicantUser')->name('pending_applicant_user');
         Route::get('/update-user-status/{id}', 'updateUserStatus')->name('update_user_status');
         Route::get('/pending-lawyer-user',  'pendingLawyerUser')->name('pending_lawyer_user');
         Route::get('/active-lawyer-user',  'activeLawyerUser')->name('active_lawyer_user');

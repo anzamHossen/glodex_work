@@ -36,15 +36,12 @@ class UserActiveController extends Controller
                 return $user;
             });
 
-        return view(
-            'admin.user-active.pending-agent-user',
-            compact('pendingAgentUsers')
-        );
+        return view('admin.user-active.pending-agent-user',compact('pendingAgentUsers'));
     }
 
 
     // Function to show pending student users
-    public function pendingStudentUser()
+    public function pendingApplicantUser()
     {
         $authUser = auth()->user();
 
@@ -62,7 +59,7 @@ class UserActiveController extends Controller
             ->get()
             ->map(function ($user) {
 
-                $user->user_type_label = 'Student';
+                $user->user_type_label = 'Applicant';
 
                 if (
                     $user->studentInfo &&
@@ -79,7 +76,7 @@ class UserActiveController extends Controller
                 return $user;
             });
 
-        return view('admin.user-active.pending-student-user',compact('pendingStudentUsers'));
+        return view('admin.user-active.pending-applicant-user',compact('pendingStudentUsers'));
     }
 
 
@@ -136,25 +133,22 @@ class UserActiveController extends Controller
     }
 
 
-    public function activeLawyerUser()
-    {
-        $activeLawyerUsers = User::with('creator')
-            ->where('user_type', 4)     // Lawyer
-            ->where('user_status', 2)   // Activee
-            ->orderBy('id', 'desc')
-            ->get()
-            ->map(function ($user) {
-                $user->user_type_label = 'Lawyer';
+public function activeLawyerUser()
+{
+    $activeLawyerUsers = User::with(['creator', 'companies.country'])
+        ->where('user_type', 4)
+        ->where('user_status', 2)
+        ->orderBy('id', 'desc')
+        ->get()
+        ->map(function ($user) {
+            $user->user_type_label = 'Lawyer';
+            $user->created_by_name = $user->creator ? $user->creator->name : 'Self Registered';
+            return $user;
+        });
 
-                $user->created_by_name = $user->creator
-                    ? $user->creator->name
-                    : 'Self Registered';
+    return view('admin.user-active.active-lawyer-user', compact('activeLawyerUsers'));
+}
 
-                return $user;
-            });
-
-        return view('admin.user-active.active-lawyer-user',compact('activeLawyerUsers'));
-    }
 
     
     // Function to update user status

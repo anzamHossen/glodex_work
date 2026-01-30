@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Admin\Company;
 use App\Models\Admin\StudentInfo;
 use App\Models\Admin\UserInfo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -65,6 +66,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserInfo::class);
     }
+
+    // App\Models\User.php
+    public function companies()
+    {
+        return $this->hasMany(Company::class, 'lawyer_id', 'id');
+    }
+
 
     public function studentInfo()
     {

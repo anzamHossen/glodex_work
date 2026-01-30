@@ -65,6 +65,17 @@
                                                             title="Delete">
                                                                 <i class="ti ti-trash ti-md"></i> <span>Delete</span>
                                                             </a>
+                                                            <a href="{{ route('update_user_status', $user->id) }}"
+                                                                class="dropdown-item d-flex align-items-center gap-1"
+                                                                title="{{ $user->user_status == 1 ? 'Approve' : 'Pending' }}">
+                                                                @if($user->user_status == 1)
+                                                                    <i class="ti ti-check ti-md text-success"></i>
+                                                                    <span>Approve</span>
+                                                                @else
+                                                                    <i class="ti ti-clock ti-md text-warning"></i>
+                                                                    <span>Pending</span>
+                                                                @endif
+                                                            </a>
                                                         </div>
                                                     </div>
                                                     <form id="delete-user-form" method="POST" style="display: none;">

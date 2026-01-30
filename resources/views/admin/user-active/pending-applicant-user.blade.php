@@ -20,7 +20,7 @@
                                             <th>Action</th>
                                             <th>Status</th>
                                             <th>Name</th>
-                                            <th>User Type</th>
+                                            {{-- <th>User Type</th> --}}
                                             <th>Contact</th>
                                             <th>Email</th>
                                             <th>Created By</th>
@@ -46,11 +46,11 @@
                                                     <img src="{{asset('back-end/assets/images/users/dummy-user.jpg')}}" alt="table-user" class="avatar-sm me-2 rounded-circle" />
                                                     {{$user->name ?? 'Not Added'}}
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                    <span class="badge bg-primary px-2 py-1 fs-11 me-2">
                                                         {{ $user->user_type == 3 ? 'Student' : 'Agent' }}
                                                     </span>
-                                                </td>
+                                                </td> --}}
                                                 <td>{{ $user->phone ?? 'Not Added' }}</td>
                                                 <td>{{ $user->email ?? 'Not Added' }}</td>
                                                 <td>

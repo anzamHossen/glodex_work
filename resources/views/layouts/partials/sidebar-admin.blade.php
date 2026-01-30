@@ -84,10 +84,10 @@
         </li>
         {{-- @can('View Pending Student') --}}
         <li class="side-nav-item">
-            <a href="{{ route('pending_student_user') }}" class="side-nav-link">
+            <a href="{{ route('pending_applicant_user') }}" class="side-nav-link">
                 <span class="menu-icon"><i class="ti ti-user-pause"></i></span>
                 <span class="menu-text">Pending Applicant</span>
-                <span class="badge bg-success rounded-pill">{{ $pendingStudenttUser ?? 0}}</span>
+                {{-- <span class="badge bg-success rounded-pill">{{ $pendingStudenttUser ?? 0}}</span> --}}
             </a>
         </li>
         {{-- @endcan --}}
