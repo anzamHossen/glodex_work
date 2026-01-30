@@ -142,6 +142,31 @@
             </div>
         </li>
         <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarJob" aria-expanded="false" aria-controls="sidebarJob" class="side-nav-link">
+                <span class="menu-icon"><i class="ti ti-briefcase"></i></span>
+                <span class="menu-text">Jobs</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarJob">
+                <ul class="sub-menu">
+                    {{-- @can('Create Company') --}}
+                    <li class="side-nav-item">
+                        <a href="{{ route('add_new_job') }}" class="side-nav-link">
+                            <span class="menu-text">Add Job</span>
+                        </a>
+                    </li>
+                    {{-- @endcan --}}
+                    {{-- @can('View Company') --}}
+                    <li class="side-nav-item">
+                        <a href="#" class="side-nav-link">
+                            <span class="menu-text">Job List</span>
+                        </a>
+                    </li>
+                    {{-- @endcan --}}
+                </ul>
+            </div>
+        </li>
+        <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarUniversity" aria-expanded="false" aria-controls="sidebarUniversity" class="side-nav-link">
                 <span class="menu-icon"><i class="ti ti-map-heart"></i></span>
                 <span class="menu-text"> University</span>

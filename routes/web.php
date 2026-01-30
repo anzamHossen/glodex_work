@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\CompanyJobController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\RolePermissionController;
@@ -104,6 +105,11 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::post('/update-company/{id}', 'updateCompany')->name('update_company');
         Route::get('/company-details/{id}', 'companyDetails')->name('company_details');
         Route::delete('/delete-company/{id}',  'deleteCompany')->name('delete_company');
+    });
+
+    Route::controller(CompanyJobController::class)->group(function () {
+        Route::get('/add-new-job', 'addNewJob')->name('add_new_job');
+        Route::post('/save-new-job', 'saveNewJob')->name('save_new_job');
     });
 
     // Route for university
