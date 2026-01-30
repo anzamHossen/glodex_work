@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('company_id');
             $table->foreignId('country_id');
             $table->string('job_name');
-            $table->string('avilable_positions');
+            $table->integer('avilable_positions');
             $table->integer('job_type');
             $table->string('experience_level');
             $table->string('intial_fees');

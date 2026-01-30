@@ -60,7 +60,7 @@
 
                                     <div class="col-md-4 mb-3">
                                         <label for="avilable_positions" class="form-label">Avilable Positions<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="avilable_positions" name="avilable_positions" value="{{ old('avilable_positions') }}" placeholder="Enter available positions" required>
+                                        <input type="number" class="form-control" id="avilable_positions" name="avilable_positions" value="{{ old('avilable_positions') }}" placeholder="Enter available positions" required>
                                         @error('avilable_positions')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
