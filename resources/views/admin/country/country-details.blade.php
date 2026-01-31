@@ -150,28 +150,28 @@
                                 <section class="py-4 country-details-universities-list">
                                     <div class="container">
                                         <div class="text-center pb-3">
-                                            <h2 class="h2 fw-bold text-white mb-3">Top Universities</h2>
+                                            <h2 class="h2 fw-bold text-white mb-3">Top Companies</h2>
                                             <p class="text-white opacity-75">
-                                                Explore the leading institutions offering world-class education
+                                                Explore the leading companies in this country
                                             </p>
                                         </div>
 
                                         {{-- Owl Carousel Wrapper --}}
                                         <div class="owl-carousel owl-theme glodex-details-carousel"
                                             id="country-details-universities-carousel">
-                                            @forelse ($randomUniversities as $university)
+                                            @forelse ($randomCompanies as $company)
                                                 <div class="glodex-details-carousel-item">
                                                     <div
                                                         class="glodex-details-carousel-image position-relative rounded-4 overflow-hidden">
-                                                        <img src="{{ $university->logo && file_exists(public_path($university->logo)) ? asset($university->logo) : asset('back-end/assets/images/dr-profile/image-upload.jpg') }}"
-                                                            alt="{{ $university->university_name }}"
+                                                        <img src="{{ $company->logo && file_exists(public_path($company->logo)) ? asset($company->logo) : asset('back-end/assets/images/dr-profile/image-upload.jpg') }}"
+                                                            alt="{{ $company->company_name }}"
                                                             class="w-100 object-fit-cover img-fluid">
 
                                                         <!-- Overlay -->
                                                         <div
                                                             class="glodex-details-carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center">
                                                             <h4 class="text-white fw-bold mb-2">
-                                                                {{ $university->university_name }}</h4>
+                                                                {{ $company->company_name }}</h4>
                                                             <a href="{{ route('country_details', $country->id) }}" class="btn btn-sm btn-gradient">View
                                                                 Details</a>
                                                         </div>
@@ -179,7 +179,7 @@
                                                 </div>
                                             @empty
                                                 <h1 class="text-white h-3 text-center">
-                                                    No universities available for this country.
+                                                    No company available for this country.
                                                 </h1>
                                             @endforelse
                                         </div>

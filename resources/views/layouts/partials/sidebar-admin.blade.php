@@ -158,7 +158,7 @@
                     {{-- @endcan --}}
                     {{-- @can('View Company') --}}
                     <li class="side-nav-item">
-                        <a href="#" class="side-nav-link">
+                        <a href="{{ route('job_list') }}" class="side-nav-link">
                             <span class="menu-text">Job List</span>
                         </a>
                     </li>

@@ -16,13 +16,13 @@ class Country extends Model
         return $this->belongsTo(CountryContinent::class, 'continent_id');
     }
 
-    public function universities()
+    public function companies()
     {
-        return $this->hasMany(University::class, 'country_id');
+        return $this->hasMany(Company::class, 'country_id');
     }
 
-    public function courses()
+    public function jobs()
     {
-        return $this->hasMany(Course::class, 'country_id');
+        return $this->hasMany(CompanyJob::class, 'country_id');
     }
 }

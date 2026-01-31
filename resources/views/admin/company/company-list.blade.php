@@ -93,7 +93,16 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     {{-- @can('View Course') --}}
-                                                    <li><a class="dropdown-item" href="{{ url('/admin/filter-course') }}?university_name={{ urlencode($company->university_name) }}">Jobs</a></li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="{{ route('filter_job', [
+                                                            'job_name' => '',
+                                                            'company_name' => $company->company_name,
+                                                            'country_id' => '',
+                                                            'search_terms' => '',
+                                                            'job_type' => ''
+                                                            ]) }}">Jobs
+                                                        </a>
+                                                    </li>
                                                     {{-- @endcan --}}
                                                     {{-- @can('View University') --}}
                                                     <li><a class="dropdown-item" href="{{ route('company_details', $company->id) }}">Company Details</a></li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Handler\ImageHandlerController;
+use App\Models\Admin\Company;
 use App\Models\Admin\Country;
 use App\Models\Admin\CountryContinent;
 use App\Models\Admin\University;
@@ -26,7 +27,7 @@ class CountryController extends Controller
     {
         $countries = Country::with('countryContinent')
         ->where('status', 1)
-        ->withCount(['universities', 'courses'])
+        ->withCount(['companies', 'jobs'])
         ->orderBy('country_name', 'asc')
         ->paginate(8);
         return view('admin.country.country-list', compact('countries'));
@@ -167,18 +168,18 @@ class CountryController extends Controller
     public function countryDetails($id)
     {
         $country = Country::findOrFail($id);
-        $totalUniversities = $country->universities()->count();
-        $totalCourses = $country->courses()->count();
-        $randomUniversities = University::where('country_id', $country->id)
+        $totalCompanies = $country->companies()->count();
+        $totalJobs = $country->jobs()->count();
+        $randomCompanies = Company::where('country_id', $country->id)
                                         ->inRandomOrder()
                                         ->take(10)
                                         ->get();
 
         return view('admin.country.country-details', compact(
             'country',
-            'totalUniversities',
-            'totalCourses',
-            'randomUniversities'
+            'totalCompanies',
+            'totalJobs',
+            'randomCompanies'
         ));
     }
 

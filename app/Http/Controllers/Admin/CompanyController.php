@@ -31,7 +31,7 @@ class CompanyController extends Controller
     }
 
     // Function to search company by name and country
-   public function searchCompanyName(Request $request)
+    public function searchCompanyName(Request $request)
     {
         $query = Company::with('country')->orderBy('id', 'desc');
 
@@ -174,7 +174,7 @@ class CompanyController extends Controller
     }
 
     // function to show company details
-     public function companyDetails($id)
+    public function companyDetails($id)
     {
         $companyDetails = Company::with('country')->findOrFail($id);
         return view('admin.company.company-details', compact('companyDetails'));

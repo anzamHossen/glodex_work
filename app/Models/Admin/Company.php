@@ -16,4 +16,8 @@ class Company extends Model
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
+    public function jobs()
+    {
+        return $this->hasMany(CompanyJob::class, 'company_id');
+    }
 }

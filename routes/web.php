@@ -108,8 +108,15 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     });
 
     Route::controller(CompanyJobController::class)->group(function () {
+        Route::get('/job-list', 'jobList')->name('job_list');
+        Route::get('/search-job', 'searchJob')->name('search_job');
+        Route::get('/filter-job', 'filterJob')->name('filter_job');
         Route::get('/add-new-job', 'addNewJob')->name('add_new_job');
         Route::post('/save-new-job', 'saveNewJob')->name('save_new_job');
+        Route::get('/edit-job/{id}', 'editJob')->name('edit_job');
+        Route::post('/update-job/{id}', 'updateJob')->name('update_job');
+        Route::get('/job-details/{id}', 'jobDetails')->name('job_details');
+        Route::delete('/delete-job/{id}', 'deleteJob')->name('delete_job');
     });
 
     // Route for university

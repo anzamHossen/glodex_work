@@ -127,7 +127,7 @@
                                         </div>
                                     </div>
                                 </section>
-                                <section class="py-4 country-details-universities-list">
+                                {{-- <section class="py-4 country-details-universities-list">
                                     <div class="container">
                                         <div class="text-center pb-3">
                                             <h2 class="h2 fw-bold text-white mb-3">Top Jobs</h2>
@@ -136,24 +136,23 @@
                                             </p>
                                         </div>
 
-                                        {{-- Owl Carousel Wrapper --}}
-                                        {{-- <div class="owl-carousel owl-theme glodex-details-carousel" id="university-details-universities-carousel">
-                                            @forelse ($randomCourses as $course)
+                                        
+                                        <div class="owl-carousel owl-theme glodex-details-carousel" id="university-details-universities-carousel">
+                                            @forelse ($randomJobs as $job)
                                                 <div class="glodex-details-carousel-item">
                                                     <div class="glodex-details-carousel-image position-relative rounded-4 overflow-hidden">
-                                                        <img 
-                                                            src="{{ $course->course_photo && file_exists(public_path($course->course_photo)) 
-                                                            ? asset($course->course_photo) 
-                                                            : asset('back-end/assets/images/dr-profile/image-upload.jpg') }}"
-                                                            alt="{{ $course->course_name }}"
+                                                      <img 
+                                                            src="{{ $job->country && $job->country->flag && file_exists(public_path($job->country->flag)) 
+                                                                ? asset($job->country->flag) 
+                                                                : asset('back-end/assets/images/dr-profile/image-upload.jpg') }}"
+                                                            alt="{{ $job->country->country_name ?? 'Country' }}"
                                                             class="w-100 object-fit-cover img-fluid">
-
                                                         <!-- Overlay -->
                                                         <div class="glodex-details-carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center">
                                                             <h4 class="text-white fw-bold mb-2">
-                                                                {{ $course->course_name }}
+                                                                {{ $job->job_title }}
                                                             </h4>
-                                                            <a href="{{ route('course_details', $course->id) }}" class="btn btn-sm btn-gradient">View Details</a>
+                                                            <a href="{{ route('job_details', $job->id) }}" class="btn btn-sm btn-gradient">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -162,16 +161,15 @@
                                                     No courses available for this university.
                                                 </h1>
                                             @endforelse
-
-                                        </div> --}}
+                                        </div>
                                     </div>
-                                </section>
+                                </section> --}}
                                 <section class="pb-4 text-center">
                                     <div class="container">
-                                        <a href="#" class="btn btn-gradient btn-lg text-white border-0 d-inline-flex align-items-center gap-2"
+                                        <a href="{{ route('company_list') }}" class="btn btn-gradient btn-lg text-white border-0 d-inline-flex align-items-center gap-2"
                                             >
                                             <i class="ti ti-arrow-left"></i>
-                                            Back to all jobs
+                                            Back to all companies
                                         </a>
                                     </div>
                                 </section>

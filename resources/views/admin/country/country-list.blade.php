@@ -69,25 +69,25 @@
                                                     <i class="ti ti-dots-vertical"></i>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    @can('View University')
+                                                    {{-- @can('View University') --}}
                                                     <li>
-                                                        <a class="dropdown-item" href="{{ url('/admin/search-university-name') }}?country_id={{ $country->id }}&university_name=" target="_blank"><i class="ti ti-school me-2"></i>Universities</a>
+                                                        <a class="dropdown-item" href="{{ url('/admin/search-company-name') }}?country_id={{ $country->id }}&company_name=" target="_blank"><i class="ti ti-brand-abstract me-2"></i>Companies</a>
                                                     </li>
-                                                    @endcan
-                                                    @can('View Course')
+                                                    {{-- @endcan --}}
+                                                    {{-- @can('View Course') --}}
                                                     <li>
-                                                        <a class="dropdown-item" href="{{ route('filter_course', ['country_id' => $country->id]) }}" target="_blank">
-                                                            <i class="ti ti-book-2 me-2"></i> Courses
+                                                        <a class="dropdown-item" href="#" target="_blank">
+                                                            <i class="ti ti-book-2 me-2"></i> Jobs
                                                         </a>
                                                     </li>
-                                                    @endcan
-                                                    @can('View Country')
+                                                    {{-- @endcan --}}
+                                                    {{-- @can('View Country') --}}
                                                     <li><a class="dropdown-item" href="{{ route('country_details', $country->id) }}"><i class="ti ti-map-pin me-2"></i> Country Details</a></li>
-                                                    @endcan
-                                                    @can('Edit Country')
+                                                    {{-- @endcan --}}
+                                                    {{-- @can('Edit Country') --}}
                                                     <li><a class="dropdown-item" href="{{ route('edit_country', $country->id) }}"><i class="ti ti-edit me-2"></i> Edit</a></li>
-                                                    @endcan
-                                                    @can('Delete Country')
+                                                    {{-- @endcan --}}
+                                                    {{-- @can('Delete Country') --}}
                                                     <li>
                                                         <a class="dropdown-item" href="#"  onclick="confirmDelete({{ $country->id }})"><i class="ti ti-trash me-2"></i> Delete</a>
                                                         <form id="delete-country-form-{{ $country->id }}" method="POST" style="display: none;">
@@ -95,7 +95,7 @@
                                                             @method('DELETE')
                                                         </form>
                                                     </li>
-                                                    @endcan
+                                                    {{-- @endcan --}}
                                                 </ul>
                                             </div>
                                             <div class="glodex-country-list-img position-relative overflow-hidden">
@@ -114,12 +114,12 @@
                                                 <span class="  d-block mb-2">{{ $country->countryContinent->continent_name ?? '--' }}</span>
                                                 <div class="glodex-country-info d-flex align-items-center justify-content-between text-center">
                                                     <div>
-                                                        <p class="mb-0">Total University</p>
-                                                        <p class="mb-0 fw-semibold">{{ $country->universities_count ?? 0 }}</p>
+                                                        <p class="mb-0">Total Companies</p>
+                                                        <p class="mb-0 fw-semibold">{{ $country->companies_count ?? 0 }}</p>
                                                     </div>
                                                     <div>
-                                                        <p class="mb-0">Total Courses</p>
-                                                        <p class="mb-0 fw-semibold">{{ $country->courses_count ?? 0 }}</p>
+                                                        <p class="mb-0">Total Jobs</p>
+                                                        <p class="mb-0 fw-semibold">{{ $country->jobs_count ?? 0 }}</p>
                                                     </div>
                                                 </div>
                                                 <button class="btn btn-sm btn-gradient mt-3 px-3 py-1">Active</button>
