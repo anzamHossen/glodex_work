@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\ApplicantController;
 use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyJobController;
@@ -152,6 +153,15 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::post('/save-new-student', 'saveNewStudent')->name('save_new_student');
         Route::get('/edit-student/{id}', 'editStudent')->name('edit_student');
         Route::post('/update-student/{id}', 'updateStudent')->name('update_student');
+    });
+
+    // Route for applicant
+    Route::controller(ApplicantController::class)->group(function () {
+        Route::get('/my-applicant-list', 'myApplicantList')->name('my_applicant_list');    
+        Route::get('/add-new-applicant', 'addNewApplicant')->name('add_new_applicant');
+        Route::post('/save-new-applicant', 'saveNewApplicant')->name('save_new_applicant');
+        Route::get('/edit-applicant/{id}', 'editApplicant')->name('edit_applicant');
+        Route::post('/update-applicant/{id}', 'updateApplicant')->name('update_applicant');
     });
 
     // Route for applications

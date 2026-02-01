@@ -167,6 +167,31 @@
             </div>
         </li>
         <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarApplicant" aria-expanded="false" aria-controls="sidebarApplicant" class="side-nav-link">
+                <span class="menu-icon"><i class="ti ti-api-app"></i></span>
+                <span class="menu-text">Applicant</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarApplicant">
+                <ul class="sub-menu">
+                    {{-- @can('Create Company') --}}
+                    <li class="side-nav-item">
+                        <a href="{{ route('add_new_applicant') }}" class="side-nav-link">
+                            <span class="menu-text">Add Applicant</span>
+                        </a>
+                    </li>
+                    {{-- @endcan --}}
+                    {{-- @can('View Company') --}}
+                    <li class="side-nav-item">
+                        <a href="{{ route('my_applicant_list') }}" class="side-nav-link">
+                            <span class="menu-text">My Applicant</span>
+                        </a>
+                    </li>
+                    {{-- @endcan --}}
+                </ul>
+            </div>
+        </li>
+        <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarUniversity" aria-expanded="false" aria-controls="sidebarUniversity" class="side-nav-link">
                 <span class="menu-icon"><i class="ti ti-map-heart"></i></span>
                 <span class="menu-text"> University</span>
