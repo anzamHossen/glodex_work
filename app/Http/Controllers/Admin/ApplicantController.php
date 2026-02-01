@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Applicant;
 use App\Models\Admin\ApplicantFile;
+use App\Models\Admin\Application;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -252,4 +253,24 @@ class ApplicantController extends Controller
             return redirect()->back();
         }
     }
+
+
+    // Function to delete applicant
+    public function deleteApplicant($id)
+    {
+       DB::beginTransaction();
+        try {
+            $applicant = Applicant::findOrFail($id);
+            Application::where('applicant_id', $applicant->id)->delete();
+            $applicant->delete();
+            DB::commit();
+            Alert::success('Success', 'Applicant  deleted successfully');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Alert::error('Error', 'Failed to delete applicant. Please try again.');
+            return redirect()->back();
+        }
+    }  
+   
 }

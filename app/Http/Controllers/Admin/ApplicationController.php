@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Applicant;
+use App\Models\Admin\ApplicantFile;
 use App\Models\Admin\Application;
 use App\Models\Admin\ApplicationStatus;
+use App\Models\Admin\CompanyJob;
 use App\Models\Admin\Course;
 use App\Models\Admin\StudentFile;
 use App\Models\Admin\StudentInfo;
@@ -21,9 +24,9 @@ class ApplicationController extends Controller
     public function myApplicationList()
     {
         $applications = Application::with([
-                'student',
-                'course.country',
-                'course.university',
+                'applicant',
+                'job.country',
+                'job.company',
                 'applicationStatus'
             ])
             ->whereHas('createdBy', function ($query) {
@@ -68,15 +71,15 @@ class ApplicationController extends Controller
 
     
     // function to add application for new student
-    public function addApplicationNewStudent($course_id)
+    public function addApplicationNewApplicant($job_id)
     {
-        $course   = Course::find($course_id);
+        $job                = CompanyJob::find($job_id);
         $applicationStatus = ApplicationStatus::all();
-        return view('admin.application.add-application-new-student', compact('course','applicationStatus'));
+        return view('admin.application.add-application-new-applicant', compact('job','applicationStatus'));
     }
 
     // function to save application for new student
-    public function saveApplicationNewStudent(Request $request)
+    public function saveApplicationNewApplicant(Request $request)
     {
         $request->validate([
             'name'        => 'required|string|max:50',
@@ -86,15 +89,15 @@ class ApplicationController extends Controller
             'passport_no' => 'required|string',
             'permanent_address' => 'required|string',
             'gender'      => 'required',
-            'intake_year' => 'required',
+            'going_year'  => 'required',
         ]);
 
-        $existingStudent = StudentInfo::where('phone', $request->phone)
+        $existingApplicant = Applicant::where('phone', $request->phone)
             ->orWhere('email', $request->email)
             ->orWhere('passport_no', $request->passport_no)
             ->exists();
 
-        if ($existingStudent) {
+        if ($existingApplicant) {
             Alert::error('Error', 'Student Already Exists');
             return redirect()->back()->withInput();
         }
@@ -107,28 +110,28 @@ class ApplicationController extends Controller
                 'name'       => $request->name,
                 'phone'      => $request->phone,
                 'email'      => $request->email,
-                'password'   => Hash::make('student1234'),
+                'password'   => Hash::make('applicant1234'),
                 'created_by' => Auth::id(),
                 'user_type'  => 3, // Student
             ]);
 
-            // Create Student Info
-            $studentInfo = new StudentInfo();
-            $studentInfo->user_id = $user->id;
-            $studentInfo->sent_by = 'Glodex';
-            $studentInfo->name = $request->name;
-            $studentInfo->student_code = 'GLD' . rand(1000000, 9999999);
-            $studentInfo->phone = $request->phone;
-            $studentInfo->email = $request->email;
-            $studentInfo->permanent_address = $request->permanent_address;
-            $studentInfo->gender = $request->gender;
-            $studentInfo->fathers_name = $request->fathers_name;
-            $studentInfo->mothers_name = $request->mothers_name;
-            $studentInfo->dob = $request->dob;
-            $studentInfo->passport_no = $request->passport_no;
-            $studentInfo->moi = $request->moi;
-            $studentInfo->notes = $request->notes;
-            $studentInfo->created_by = Auth::id();
+            // Create Applicant Info
+            $applicantInfo = new Applicant();
+            $applicantInfo->user_id = $user->id;
+            $applicantInfo->sent_by = 'Glodex';
+            $applicantInfo->name = $request->name;
+            $applicantInfo->applicant_code = 'GLD' . rand(1000000, 9999999);
+            $applicantInfo->phone = $request->phone;
+            $applicantInfo->email = $request->email;
+            $applicantInfo->permanent_address = $request->permanent_address;
+            $applicantInfo->gender = $request->gender;
+            $applicantInfo->fathers_name = $request->fathers_name;
+            $applicantInfo->mothers_name = $request->mothers_name;
+            $applicantInfo->dob = $request->dob;
+            $applicantInfo->passport_no = $request->passport_no;
+            $applicantInfo->moi = $request->moi;
+            $applicantInfo->notes = $request->notes;
+            $applicantInfo->created_by = Auth::id();
 
             // English Proficiency
             if ($request->has('english_tests')) {
@@ -143,7 +146,7 @@ class ApplicationController extends Controller
                         'overall'   => $test['overall'] ?? null,
                     ];
                 }
-                $studentInfo->english_proficiency = json_encode($englishTests);
+                $applicantInfo->english_proficiency = json_encode($englishTests);
             }
 
             // Academic Qualifications
@@ -157,22 +160,22 @@ class ApplicationController extends Controller
                         'passing_year'   => $qualification['passing_year'] ?? null,
                     ];
                 }
-                $studentInfo->academic_qualifications = json_encode($academicQualifications);
+                $applicantInfo->academic_qualifications = json_encode($academicQualifications);
             }
 
-            $studentInfo->save();
+            $applicantInfo->save();
 
-            // Save Student Files
-            if ($request->hasFile('studentfiles')) {
-                $studentFiles = $request->file('studentfiles');
+            // Save Applicant Files
+            if ($request->hasFile('applicantfiles')) {
+                $applicantFiles = $request->file('applicantfiles');
                 $filenames = $request->input('filename');
-                foreach ($studentFiles as $key => $single) {
+                foreach ($applicantFiles as $key => $single) {
                     $originalFileName = $single->getClientOriginalName();
-                    $newFileName = Carbon::now()->timestamp . '_' . $studentInfo->name . '_' . $originalFileName;
+                    $newFileName = Carbon::now()->timestamp . '_' . $applicantInfo->name . '_' . $originalFileName;
                     $filePath = $single->storeAs($filenames[$key], $newFileName, 'public');
 
-                    StudentFile::create([
-                        'student_id' => $studentInfo->id,
+                    ApplicantFile::create([
+                        'applicant_id' => $applicantInfo->id,
                         'filename'   => $filenames[$key],
                         'filepath'   => $filePath,
                     ]);
@@ -181,14 +184,14 @@ class ApplicationController extends Controller
 
             // Create Application Record
             Application::create([
-                'user_id'     => Auth::id(), // current admin/agent
-                'course_id'   => $request->course_id,
-                'student_id'  => $studentInfo->id,
-                'sent_by'     => 'Glodex',
+                'user_id'          => Auth::id(), // current admin/agent
+                'job_id'           => $request->job_id,
+                'applicant_id'     => $applicantInfo->id,
+                'sent_by'          => 'Glodex',
                 'application_code' => rand(100000, 999999),
-                'status'      => $request->status,
-                'created_by'  => Auth::id(),
-                'intake_year' => $request->intake_year,
+                'status'           => $request->status,
+                'created_by'       => Auth::id(),
+                'going_year'       => $request->going_year,
             ]);
 
             DB::commit();
@@ -198,7 +201,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            // dd($e->getMessage());
+            dd($e);
             Alert::error('Error', 'Failed to save application, Try Again');
             return redirect()->back();
         }

@@ -18,14 +18,14 @@ class Application extends Model
     return $this->belongsTo(User::class, 'created_by');
   }
 
-    public function student()
+    public function applicant()
   {
-    return $this->belongsTo(StudentInfo::class, 'student_id');
+    return $this->belongsTo(Applicant::class, 'applicant_id');
   }
 
-  public function course()
+  public function job()
   {
-    return $this->belongsTo(Course::class, 'course_id');
+    return $this->belongsTo(CompanyJob::class, 'job_id');
   }
 
   public function applicationStatus()

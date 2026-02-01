@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\Applicant as MiddlewareApplicant;
+use App\Models\Admin\Applicant;
 use App\Models\Admin\Company;
 use App\Models\Admin\CompanyJob;
 use App\Models\Admin\Country;
@@ -19,7 +21,11 @@ class CompanyJobController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(8);
         $countries = Country::where('status', 1)->get();
-        return view('admin.job.job-list', compact('jobs', 'countries'));
+        $applicants = Applicant::with('createdBy')
+                ->whereHas('createdBy', function ($query) {
+                $query->where('user_type', 1);
+            })->orderBy('id', 'desc')->get();
+        return view('admin.job.job-list', compact('jobs', 'countries','applicants'));
     }
 
     // Function to search job by name and country

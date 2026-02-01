@@ -56,13 +56,8 @@
                                                             </a>
                                                             {{-- @endcan --}}
                                                             {{-- @can('Delete Applicant') --}}
-                                                            <a href="javascript:void(0);"
-                                                                onclick="confirmDelete"
-                                                                class="dropdown-item d-flex align-items-center gap-1"
-                                                                title="Delete">
-                                                                <i class="ti ti-trash ti-md"></i> <span>Delete</span>
-                                                            </a>
-                                                            <form id="delete-course-form-" method="POST" style="display: none;">
+                                                             <a class="dropdown-item" href="#"  onclick="confirmDelete({{ $applicant->id }})"><i class="ti ti-trash me-2"></i> Delete</a>
+                                                            <form id="delete-applicant-form-{{ $applicant->id }}" method="POST" style="display: none;">
                                                                 @csrf
                                                                 @method('DELETE')
                                                             </form>
@@ -119,8 +114,8 @@
                 buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const form = document.getElementById(`delete-course-form-${id}`);
-                    form.action = "{{ route('delete_course', '') }}/" + id;
+                    const form = document.getElementById(`delete-applicant-form-${id}`);
+                    form.action = "{{ route('delete_applicant', '') }}/" + id;
                     form.submit();
                 }
             });

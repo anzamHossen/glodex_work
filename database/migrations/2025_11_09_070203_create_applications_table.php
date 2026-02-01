@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->comment("Admin Panel user's id to whom this application will pop up/ display");
-            $table->foreignId('course_id');
-            $table->foreignId('student_id');
+            $table->foreignId('job_id');
+            $table->foreignId('applicant_id');
             $table->string('sent_by')->nullable();
             $table->integer('application_code');
             $table->tinyInteger('status')->default(1);
+            $table->text('going_year')->nullable();
             $table->integer('created_by')->nullable()->comment("the id of the person who is creating this application/ auth id");
-            $table->text('intake_year')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -17,12 +17,12 @@
                                     <i class="ti ti-arrow-back-up" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Go Back 
                                 </a>
-                                @can('Create Application')
-                                <a href="{{ route('course_list') }}" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#centermodal">
+                                {{-- @can('Create Application') --}}
+                                <a href="{{ route('job_list') }}" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#centermodal">
                                     <i class="ti ti-plus" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Add New
                                 </a>
-                                @endcan
+                                {{-- @endcan --}}
                             </div>
                         </div>
                         <div class="card-body">
@@ -33,11 +33,11 @@
                                             <th>Action</th>
                                             <th>Status</th>
                                             <th>Application ID</th>
-                                            <th>Student ID</th>
+                                            <th>Applicant ID</th>
                                             <th>Name</th>
-                                            <th>Course</th>
-                                            <th>Intake</th>
-                                            <th>University</th>
+                                            <th>Job</th>
+                                            <th>Going Year</th>
+                                            <th>Company</th>
                                             <th>Application Date</th>
                                         </tr>
                                     </thead>
@@ -88,11 +88,7 @@
                                                             'In Progress' => 'badge-in-progress',
                                                             'On Hold' => 'badge-on-hold',
                                                             'Applied' => 'badge-applied',
-                                                            'Unconditional Offer Letter' => 'badge-unconditional',
-                                                            'Conditional Offer Letter' => 'badge-conditional',
-                                                            'Payment' => 'badge-payment',
-                                                            'CAS/I20/LOA/COE Confirmation' => 'badge-confirmation',
-                                                            'Visa Documentation' => 'badge-documentation',
+                                                            'Permit Received' => 'badge-unconditional',                                                            
                                                             'Visa Applied' => 'badge-visa-applied',
                                                             'Visa Granted' => 'badge-visa-granted',
                                                             'Enrolled' => 'badge-enrolled',
@@ -113,26 +109,26 @@
                                                 </td>
                                                 <td class="text-center align-middle">
                                                     <span class="badge bg-dark">
-                                                        {{ $application->student->student_code ?? 'Not Added' }}
+                                                        {{ $application->applicant->applicant_code ?? 'Not Added' }}
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    {{ $application->student->name ?? 'Not Added' }}
+                                                    {{ $application->applicant->name ?? 'Not Added' }}
                                                 </td>
                                                 <td>
-                                                    {{ $application->course->course_name ?? 'Not Added' }}
+                                                    {{ $application->job->job_name ?? 'Not Added' }}
                                                 </td>
                                                 <td class="text-center align-middle">
                                                     <span class="badge bg-success">
-                                                        @if ($application->intake_year && \Carbon\Carbon::hasFormat($application->intake_year, 'Y-m'))
-                                                            {{ \Carbon\Carbon::createFromFormat('Y-m', $application->intake_year)->format('F Y') }}
+                                                        @if ($application->going_year && \Carbon\Carbon::hasFormat($application->going_year, 'Y-m'))
+                                                            {{ \Carbon\Carbon::createFromFormat('Y-m', $application->going_year)->format('F Y') }}
                                                         @else
                                                             Not Added
                                                         @endif
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    {{ $application->course->university->university_name ?? '--' }}
+                                                    {{ $application->job->company->company_name ?? '--' }}
                                                 </td>
                                                 <td>
                                                     {{ $application->created_at->format('Y-m-d') }}

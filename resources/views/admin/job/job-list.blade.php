@@ -158,12 +158,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="modal fade" id="modalCenter{{ $course->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal fade" id="modalCenter{{ $job->id }}" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="modalCenterTitle">Start Application For
-                                                    {{ $course->course_name }}</h5>
+                                                    {{ $job->job_title }}</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
@@ -173,33 +173,33 @@
                                                         <a href="javascript:void(0);" 
                                                             class="btn btn-dark w-100 d-flex align-items-center justify-content-center" 
                                                             style="height: 60px;  font-size: 18px;"
-                                                            onclick="toggleSelect('existingStudentSelect{{ $course->id }}')">
-                                                                <i class="ti ti-search me-1"></i> Existing Student
+                                                            onclick="toggleSelect('existingStudentSelect{{ $job->id }}')">
+                                                                <i class="ti ti-search me-1"></i> Existing Applicant
                                                         </a>
 
                                                     </div>
                                                     <div class="col-md-6 text-center">
-                                                        <a href="{{ route('add_application_new_student', ['course_id' => $course->id]) }}" class="btn btn-success w-100 d-flex align-items-center justify-content-center"
+                                                        <a href="{{ route('add_application_new_applicant', ['job_id' => $job->id]) }}" class="btn btn-success w-100 d-flex align-items-center justify-content-center"
                                                             style="height: 60px; font-size: 18px;">
-                                                            <i class="ti ti-pencil me-1"></i> New Student
+                                                            <i class="ti ti-pencil me-1"></i> New Applicant
                                                         </a>
                                                     </div>
-                                                    <div id="existingStudentSelect{{ $course->id }}" style="display: none; margin-top: 10px;">
+                                                    <div id="existingStudentSelect{{ $job->id }}" style="display: none; margin-top: 10px;">
                                                         <div class="row">
                                                             <div class="col-md-9">
-                                                                <select id="studentSelect{{ $course->id }}" data-choices id="choices-single-default"
+                                                                <select id="studentSelect{{ $job->id }}" data-choices id="choices-single-default"
                                                                         class="form-control"
-                                                                        onchange="updateStartButton({{ $course->id }})">
+                                                                        onchange="updateStartButton({{ $job->id }})">
                                                                     <option value="">-- Select Student --</option>
-                                                                    @foreach($students as $student)
-                                                                        <option value="{{ $student->id }}">{{ $student->name }} ({{ $student->email }})</option>
+                                                                    @foreach($applicants as $applicant)
+                                                                        <option value="{{ $applicant->id }}">{{ $applicant->name }} ({{ $applicant->email }})</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-3 d-flex align-items-end">
-                                                                <a href="#" id="startApplicationBtn{{ $course->id }}" 
+                                                                <a href="#" id="startApplicationBtn{{ $job->id }}" 
                                                                 class="btn btn-success w-100"
-                                                                onclick="startApplication({{ $course->id }})">
+                                                                onclick="startApplication({{ $job->id }})">
                                                                     Start
                                                                 </a>
                                                             </div>
@@ -209,7 +209,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
                             @endforeach
                         </div>
                         <div class="row">

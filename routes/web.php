@@ -141,8 +141,7 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::get('/add-new-course', 'addCourse')->name('add_new_course');
         Route::post('/save-new-course', 'saveCourse')->name('save_new_course');
         Route::get('/edit-course/{id}', 'editCourse')->name('edit_course');
-        Route::post('/update-course/{id}', 'updateCourse')->name('update_course');
-        Route::delete('/delete-course/{id}',  'deleteCourse')->name('delete_course');           
+        Route::post('/update-course/{id}', 'updateCourse')->name('update_course');    
     });
 
     // Route for student info
@@ -152,7 +151,7 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::get('/add-new-student', 'addNewStudent')->name('add_new_student');
         Route::post('/save-new-student', 'saveNewStudent')->name('save_new_student');
         Route::get('/edit-student/{id}', 'editStudent')->name('edit_student');
-        Route::post('/update-student/{id}', 'updateStudent')->name('update_student');
+        Route::post('/update-student/{id}', 'updateStudent')->name('update_student');        
     });
 
     // Route for applicant
@@ -162,6 +161,7 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::post('/save-new-applicant', 'saveNewApplicant')->name('save_new_applicant');
         Route::get('/edit-applicant/{id}', 'editApplicant')->name('edit_applicant');
         Route::post('/update-applicant/{id}', 'updateApplicant')->name('update_applicant');
+        Route::delete('/delete-applicant/{id}',  'deleteApplicant')->name('delete_applicant');
     });
 
     // Route for applications
@@ -169,8 +169,10 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::get('/my-application-list', 'myApplicationList')->name('my_application_list');
         Route::get('/application-list-agent', 'applicationListAgent')->name('application_list_agent');
         Route::get('/all-application', 'allApplication')->name('all_application');
-        Route::get('/add-application-new-student/{course_id}', 'addApplicationNewStudent')->name('add_application_new_student');
-        Route::post('/save-application-new-student', 'saveApplicationNewStudent')->name('save_application_new_student');
+
+        Route::get('/add-application-new-applicant/{job_id}', 'addApplicationNewApplicant')->name('add_application_new_applicant');
+        Route::post('/save-application-new-applicant', 'saveApplicationNewApplicant')->name('save_application_new_applicant');
+       
         Route::get('/add-application-existing-student/{course_id}/{student_id}', 'addApplicationEixStudent')->name('add_application_eix_student');
         Route::post('/save-application-exit-student', 'saveApplicationEixStudent')->name('save_application_eix_student');
         Route::get('/edit-application/{id}/{course_id}/{student_id}', 'editApplication')->name('edit_application');

@@ -17,16 +17,11 @@ class ApplicationStatusSeeder extends Seeder
             ['status_name' => 'In Progress', 'status_order' => 1],
             ['status_name' => 'On Hold', 'status_order' => 2],
             ['status_name' => 'Applied', 'status_order' => 3],
-            ['status_name' => 'Unconditional Offer Letter', 'status_order' => 4],
-            ['status_name' => 'Conditional Offer Letter', 'status_order' => 5],
-            ['status_name' => 'Payment', 'status_order' => 6],
-            ['status_name' => 'CAS/I20/LOA/COE Confirmation', 'status_order' => 7],
-            ['status_name' => 'Visa Documentation', 'status_order' => 8],
-            ['status_name' => 'Visa Applied', 'status_order' => 9],
-            ['status_name' => 'Visa Granted', 'status_order' => 10],
-            ['status_name' => 'Enrolled', 'status_order' => 11],
-            ['status_name' => 'Visa Rejected', 'status_order' => 12],
-            ['status_name' => 'Canceled', 'status_order' => 13],
+            ['status_name' => 'Permit Received', 'status_order' => 4],
+            ['status_name' => 'Visa Applied', 'status_order' => 5],
+            ['status_name' => 'Visa Granted', 'status_order' => 6],
+            ['status_name' => 'Visa Rejected', 'status_order' => 7],
+            ['status_name' => 'Canceled', 'status_order' => 8],
         ]);
     }
 }
