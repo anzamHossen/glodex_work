@@ -90,6 +90,9 @@ class ApplicationController extends Controller
             'permanent_address' => 'required|string',
             'gender'      => 'required',
             'going_year'  => 'required',
+            'days'    => 'required|integer|min:0',
+            'hours'   => 'required|integer|min:0|max:23',
+            'seconds' => 'required|integer|min:0|max:59',
         ]);
 
         $existingApplicant = Applicant::where('phone', $request->phone)
@@ -182,6 +185,16 @@ class ApplicationController extends Controller
                 }
             }
 
+            // time countdown for application expiry
+            $days    = (int) ($request->days ?? 0);
+            $hours   = (int) ($request->hours ?? 0);
+            $seconds = (int) ($request->seconds ?? 0);
+
+            $expiresAt = now()
+                ->addDays($days)
+                ->addHours($hours)
+                ->addSeconds($seconds);
+
             // Create Application Record
             Application::create([
                 'user_id'          => Auth::id(), // current admin/agent
@@ -192,10 +205,10 @@ class ApplicationController extends Controller
                 'status'           => $request->status,
                 'created_by'       => Auth::id(),
                 'going_year'       => $request->going_year,
+                'expires_at'       => $expiresAt,
             ]);
 
             DB::commit();
-
             Alert::success('Success', 'Application added successfully');
             return redirect()->back();
 

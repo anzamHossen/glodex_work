@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('going_year')->nullable();
             $table->integer('created_by')->nullable()->comment("the id of the person who is creating this application/ auth id");
             $table->softDeletes();
+            $table->timestamp('expires_at')->nullable()->comment('Application countdown end time');
             $table->timestamps();
         });
     }

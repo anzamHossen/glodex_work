@@ -191,7 +191,7 @@
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-md-4">
+                                    {{-- <div class="col-md-4">
                                         <div>
                                             <label for="intakeYear" class="form-label">Going Year<span
                                                 class="text-danger">*</span>:</label>
@@ -201,7 +201,43 @@
                                         @error('going_year')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
+                                    </div> --}}
+
+                                    <div class="col-md-4">
+                                        <div>
+                                            <label for="intakeYear" class="form-label">
+                                                Going Year <span class="text-danger">*</span>:
+                                            </label>
+                                            <input type="month"
+                                                name="going_year"
+                                                class="form-control"
+                                                placeholder="YYYY"
+                                                id="goingYear"
+                                                value="{{ old('going_year') }}"
+                                                required />
+                                        </div>
+                                        @error('going_year')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
+                                    <!-- Countdown Inputs -->
+                                    <div class="col-md-4">
+                                        <label class="form-label">Application Expiry Countdown<span class="text-danger">*</span>:</label>
+                                        <div class="row g-2">
+                                            <div class="col-4">
+                                                <input type="number" name="days" class="form-control" placeholder="Days" min="0" required>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <input type="number" name="hours" class="form-control" placeholder="Hours" min="0" max="23" required>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <input type="number" name="seconds"  class="form-control" placeholder="Seconds" min="0"max="59" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <h5 class="mt-4">( Add your passport copy, if you have Academic Certificate & Trasnscript Record, English Proficiency and Others, name your file like firstname_lastname_filename)</h5>
                                     <div id="file_inputs">
                                             <div class="row" id="f1">

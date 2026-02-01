@@ -122,9 +122,9 @@
                                             <div class="info-grid">
                                                 <div class="info-item">
                                                     <h4 class="d-flex align-items-center gap-1">
-                                                        <i class="ti ti-status-change" style="font-size: 18px;"></i>Avilable Jobs
+                                                        <i class="ti ti-status-change" style="font-size: 18px;"></i>Available Jobs
                                                     </h4>
-                                                    <div class="info-value"> {{ $job->avilable_positions ?? 'N/A' }}</div>
+                                                    <div class="info-value">{{ $job->avilable_positions ?? 'Not Added' }}</div>
                                                 </div>
 
                                                 <div class="info-item">
@@ -176,7 +176,6 @@
                                                             onclick="toggleSelect('existingStudentSelect{{ $job->id }}')">
                                                                 <i class="ti ti-search me-1"></i> Existing Applicant
                                                         </a>
-
                                                     </div>
                                                     <div class="col-md-6 text-center">
                                                         <a href="{{ route('add_application_new_applicant', ['job_id' => $job->id]) }}" class="btn btn-success w-100 d-flex align-items-center justify-content-center"

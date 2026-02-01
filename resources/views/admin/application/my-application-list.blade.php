@@ -38,6 +38,7 @@
                                             <th>Job</th>
                                             <th>Going Year</th>
                                             <th>Company</th>
+                                            <th>Duration</th>
                                             <th>Application Date</th>
                                         </tr>
                                     </thead>
@@ -131,6 +132,9 @@
                                                     {{ $application->job->company->company_name ?? '--' }}
                                                 </td>
                                                 <td>
+                                                    <span class="timer" data-time="{{ $application->expires_at }}"></span>
+                                                </td>
+                                                <td>
                                                     {{ $application->created_at->format('Y-m-d') }}
                                                 </td>
                                             </tr>
@@ -175,4 +179,34 @@
             });
         }
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        document.querySelectorAll('.timer').forEach(el => {
+            let end = new Date(el.dataset.time).getTime();
+
+            function update() {
+                let now = new Date().getTime();
+                let diff = end - now;
+
+                if (diff <= 0) {
+                    el.innerText = "Expired";
+                    return;
+                }
+
+                let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                let minutes = Math.floor((diff / (1000 * 60)) % 60);
+                let seconds = Math.floor((diff / 1000) % 60);
+
+                el.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+
+            update();
+            setInterval(update, 1000);
+        });
+
+    });
+</script>
+
 @endpush
