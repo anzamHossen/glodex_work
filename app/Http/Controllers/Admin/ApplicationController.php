@@ -69,7 +69,6 @@ class ApplicationController extends Controller
         return view('admin.application.all-application', compact('applications'));
     }
 
-    
     // function to add application for new student
     public function addApplicationNewApplicant($job_id)
     {
@@ -78,7 +77,7 @@ class ApplicationController extends Controller
         return view('admin.application.add-application-new-applicant', compact('job','applicationStatus'));
     }
 
-    // function to save application for new student
+    // function to save application for new applicant
     public function saveApplicationNewApplicant(Request $request)
     {
         $request->validate([
@@ -93,6 +92,7 @@ class ApplicationController extends Controller
             'days'    => 'required|integer|min:0',
             'hours'   => 'required|integer|min:0|max:23',
             'seconds' => 'required|integer|min:0|max:59',
+            'job_id'  => 'required|exists:company_jobs,id',
         ]);
 
         $existingApplicant = Applicant::where('phone', $request->phone)
@@ -108,6 +108,17 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
         try {
+
+            // 🔒 LOCK job row
+            $job = CompanyJob::lockForUpdate()->find($request->job_id);
+
+            if (!$job || $job->avilable_positions <= 0) {
+                throw new \Exception('No available positions left for this job.');
+            }
+
+            // ➖ Decrease available position
+            $job->decrement('avilable_positions');
+
             // Create User
             $user = User::create([
                 'name'       => $request->name,
@@ -115,10 +126,10 @@ class ApplicationController extends Controller
                 'email'      => $request->email,
                 'password'   => Hash::make('applicant1234'),
                 'created_by' => Auth::id(),
-                'user_type'  => 3, // Student
+                'user_type'  => 3,
             ]);
 
-            // Create Applicant Info
+            // Create Applicant
             $applicantInfo = new Applicant();
             $applicantInfo->user_id = $user->id;
             $applicantInfo->sent_by = 'Glodex';
@@ -136,87 +147,79 @@ class ApplicationController extends Controller
             $applicantInfo->notes = $request->notes;
             $applicantInfo->created_by = Auth::id();
 
-            // English Proficiency
+            // English Tests
             if ($request->has('english_tests')) {
-                $englishTests = [];
+                $tests = [];
                 foreach ($request->english_tests as $test) {
-                    $englishTests[] = [
-                        'type'      => $test['type'] ?? null,
+                    $tests[] = [
+                        'type' => $test['type'] ?? null,
                         'listening' => $test['listening'] ?? null,
-                        'reading'   => $test['reading'] ?? null,
-                        'writing'   => $test['writing'] ?? null,
-                        'speaking'  => $test['speaking'] ?? null,
-                        'overall'   => $test['overall'] ?? null,
+                        'reading' => $test['reading'] ?? null,
+                        'writing' => $test['writing'] ?? null,
+                        'speaking' => $test['speaking'] ?? null,
+                        'overall' => $test['overall'] ?? null,
                     ];
                 }
-                $applicantInfo->english_proficiency = json_encode($englishTests);
+                $applicantInfo->english_proficiency = json_encode($tests);
             }
 
-            // Academic Qualifications
+            // Academic
             if ($request->has('academic_qualifications')) {
-                $academicQualifications = [];
-                foreach ($request->academic_qualifications as $qualification) {
-                    $academicQualifications[] = [
-                        'group_name'     => $qualification['group_name'] ?? null,
-                        'institute_name' => $qualification['institute_name'] ?? null,
-                        'gpa'            => $qualification['gpa'] ?? null,
-                        'passing_year'   => $qualification['passing_year'] ?? null,
+                $academic = [];
+                foreach ($request->academic_qualifications as $q) {
+                    $academic[] = [
+                        'group_name' => $q['group_name'] ?? null,
+                        'institute_name' => $q['institute_name'] ?? null,
+                        'gpa' => $q['gpa'] ?? null,
+                        'passing_year' => $q['passing_year'] ?? null,
                     ];
                 }
-                $applicantInfo->academic_qualifications = json_encode($academicQualifications);
+                $applicantInfo->academic_qualifications = json_encode($academic);
             }
 
             $applicantInfo->save();
 
-            // Save Applicant Files
+            // Files
             if ($request->hasFile('applicantfiles')) {
-                $applicantFiles = $request->file('applicantfiles');
-                $filenames = $request->input('filename');
-                foreach ($applicantFiles as $key => $single) {
-                    $originalFileName = $single->getClientOriginalName();
-                    $newFileName = Carbon::now()->timestamp . '_' . $applicantInfo->name . '_' . $originalFileName;
-                    $filePath = $single->storeAs($filenames[$key], $newFileName, 'public');
+                foreach ($request->file('applicantfiles') as $key => $file) {
+                    $newName = time().'_'.$file->getClientOriginalName();
+                    $path = $file->storeAs('applicants', $newName, 'public');
 
                     ApplicantFile::create([
                         'applicant_id' => $applicantInfo->id,
-                        'filename'   => $filenames[$key],
-                        'filepath'   => $filePath,
+                        'filename' => 'applicants',
+                        'filepath' => $path,
                     ]);
                 }
             }
 
-            // time countdown for application expiry
-            $days    = (int) ($request->days ?? 0);
-            $hours   = (int) ($request->hours ?? 0);
-            $seconds = (int) ($request->seconds ?? 0);
-
+            // Expiry time
             $expiresAt = now()
-                ->addDays($days)
-                ->addHours($hours)
-                ->addSeconds($seconds);
+                ->addDays((int)$request->days)
+                ->addHours((int)$request->hours)
+                ->addSeconds((int)$request->seconds);
 
-            // Create Application Record
+            // Save Application
             Application::create([
-                'user_id'          => Auth::id(), // current admin/agent
-                'job_id'           => $request->job_id,
-                'applicant_id'     => $applicantInfo->id,
-                'sent_by'          => 'Glodex',
+                'user_id' => Auth::id(),
+                'job_id' => $job->id,
+                'applicant_id' => $applicantInfo->id,
+                'sent_by' => 'Glodex',
                 'application_code' => rand(100000, 999999),
-                'status'           => $request->status,
-                'created_by'       => Auth::id(),
-                'going_year'       => $request->going_year,
-                'expires_at'       => $expiresAt,
+                'status' => $request->status,
+                'created_by' => Auth::id(),
+                'going_year' => $request->going_year,
+                'expires_at' => $expiresAt,
             ]);
 
             DB::commit();
-            Alert::success('Success', 'Application added successfully');
+            Alert::success('Success', 'Application added & job position updated!');
             return redirect()->back();
 
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
-            Alert::error('Error', 'Failed to save application, Try Again');
-            return redirect()->back();
+            Alert::error('Error', $e->getMessage());
+            return redirect()->back()->withInput();
         }
     }
 

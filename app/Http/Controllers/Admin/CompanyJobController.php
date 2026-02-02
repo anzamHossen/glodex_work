@@ -17,19 +17,22 @@ class CompanyJobController extends Controller
     // Function to show job list page
     public function jobList()
     {
-        $jobs = CompanyJob::with('company','country')
-            ->orderBy('id', 'desc')
-            ->paginate(8);
+         $jobs = CompanyJob::with('company','country')
+        ->where('avilable_positions', '>', 0)
+        ->orderBy('id', 'desc')
+        ->paginate(8);
+
         $countries = Country::where('status', 1)->get();
+
         $applicants = Applicant::with('createdBy')
-                ->whereHas('createdBy', function ($query) {
+            ->whereHas('createdBy', function ($query) {
                 $query->where('user_type', 1);
             })->orderBy('id', 'desc')->get();
+
         return view('admin.job.job-list', compact('jobs', 'countries','applicants'));
     }
 
     // Function to search job by name and country
-
     public function searchJob(Request $request)
     {
         $query = CompanyJob::with(['country']);
