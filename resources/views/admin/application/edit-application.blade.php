@@ -21,27 +21,28 @@
                         <div class="card-body">
                             <form  action="{{ route('update_application', $application->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
+                                <input type="hidden" name="job_id" value="{{ $job->id }}">
+                                <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+
                                 <h6 class="badge bg-primary">General Information</h6>
                                 <div class="row">
-                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
                                     <div class="col-md-4 mb-3">
                                         <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $student->name) }}" placeholder="Enter student name" required>
+                                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $applicant->name) }}" placeholder="Enter applicant name" required>
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $student->phone) }}" placeholder="Enter phone number" required>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $applicant->phone) }}" placeholder="Enter phone number" required>
                                         @error('phone')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $student->email) }}" placeholder="Enter email address" required>
+                                        <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $applicant->email) }}" placeholder="Enter email address" required>
                                         @error('email')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -50,41 +51,41 @@
                                         <label for="gender" class="form-label">Gender <span class="text-danger">*</span></label>
                                         <select class="form-control" id="gender" name="gender" required>
                                             <option value="">--Select Gender--</option>
-                                            <option value="1" {{ old('gender', $student->gender ?? '') == 1 ? 'selected' : '' }}>Male</option>
-                                            <option value="2" {{ old('gender', $student->gender ?? '') == 2 ? 'selected' : '' }}>Female</option>
+                                            <option value="1" {{ old('gender', $applicant->gender ?? '') == 1 ? 'selected' : '' }}>Male</option>
+                                            <option value="2" {{ old('gender', $applicant->gender ?? '') == 2 ? 'selected' : '' }}>Female</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="dob" class="form-label">Date of Birth <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" id="dob" name="dob" value="{{ old('dob', $student->dob) }}" required>
+                                        <input type="date" class="form-control" id="dob" name="dob" value="{{ old('dob', $applicant->dob) }}" required>
                                         @error('dob')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="passport_no" class="form-label">Passport Number<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="passport_no" name="passport_no" value="{{ old('passport_no', $student->passport_no) }}" placeholder="Enter passport number" required>
+                                        <input type="text" class="form-control" id="passport_no" name="passport_no" value="{{ old('passport_no', $applicant->passport_no) }}" placeholder="Enter passport number" required>
                                         @error('passport_no')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="fathers_name" class="form-label">Father's Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="fathers_name" name="fathers_name" value="{{ old('fathers_name', $student->fathers_name) }}" placeholder="Enter father's name." required>
+                                        <input type="text" class="form-control" id="fathers_name" name="fathers_name" value="{{ old('fathers_name', $applicant->fathers_name) }}" placeholder="Enter father's name." required>
                                         @error('fathers_name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="mothers_name" class="form-label">Mother's Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="mothers_name" name="mothers_name" value="{{ old('mothers_name', $student->mothers_name) }}" placeholder="Enter mother's name." required>
+                                        <input type="text" class="form-control" id="mothers_name" name="mothers_name" value="{{ old('mothers_name', $applicant->mothers_name) }}" placeholder="Enter mother's name." required>
                                         @error('mothers_name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="permanent_address" class="form-label">Permanent Address<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="permanent_address" name="permanent_address" value="{{ old('permanent_address', $student->permanent_address) }}" placeholder="Enter address (same as passport)." required>
+                                        <input type="text" class="form-control" id="permanent_address" name="permanent_address" value="{{ old('permanent_address', $applicant->permanent_address) }}" placeholder="Enter address (same as passport)." required>
                                         @error('permanent_address')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -96,8 +97,8 @@
                                         <label for="moi" class="form-label">MOI</label>
                                         <select class="form-control" id="moi" name="moi" required>
                                             <option value="">--Select MOI--</option>
-                                            <option value="1" {{ old('moi', $student->moi ?? '') == 1 ? 'selected' : '' }}>Avaiable</option>
-                                            <option value="2" {{ old('moi', $student->moi ?? '') == 2 ? 'selected' : '' }}>Not Avaiable</option>
+                                            <option value="1" {{ old('moi', $applicant->moi ?? '') == 1 ? 'selected' : '' }}>Avaiable</option>
+                                            <option value="2" {{ old('moi', $applicant->moi ?? '') == 2 ? 'selected' : '' }}>Not Avaiable</option>
                                         </select>
                                     </div>
                                    <div id="englishTestsContainer">
@@ -295,7 +296,7 @@
                                 </div>
                                 <h6 class="badge bg-primary">Documents Upload</h6>
                                 <div class="row">
-                                    <h5>( Add your passport copy, All Academic Certificate & Trasnscript Record, English Proficiency and Others, name your file like firstname_lastname_filename)</h5>            
+                                    <h5>( Add your passport copy, if you have Academic Certificate & Trasnscript Record, English Proficiency and Others, name your file like firstname_lastname_filename)</h5>            
                                     <div class="col-md-4 mt-2">
                                         <div class="">
                                             <label for="defaultSelect" class="form-label">Application Satus</label>
@@ -313,24 +314,41 @@
                                     </div>
                                     <div class="col-md-4 mt-2">
                                         <div>
-                                            <label for="intakeYear" class="form-label">Intake Year<span
+                                            <label for="intakeYear" class="form-label">Going Year<span
                                                 class="text-danger">*</span>:</label>
-                                            <input type="month" name="intake_year" class="form-control" placeholder="YYYY"
-                                                id="intakeYear" value="{{ old('intake_year', $application->intake_year) }}" required/>
+                                            <input type="month" name="going_year" class="form-control" placeholder="YYYY"
+                                                id="intakeYear" value="{{ old('going_year', $application->going_year) }}" required/>
                                         </div>
-                                        @error('intake_year')
+                                        @error('going_year')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <div class="col-md-4 mt-2">
+                                        <label class="form-label">Application Expiry Countdown<span class="text-danger">*</span>:</label>
+                                        <div class="row g-2">
+                                            <div class="col-3">
+                                                <input type="number" name="days" class="form-control" placeholder="Days"
+                                                    value="{{ old('days', $application->days ?? 0) }}" min="0" required>
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="number" name="hours" class="form-control" placeholder="Hours"
+                                                    value="{{ old('hours', $application->hours ?? 0) }}" min="0" max="23" required>
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="number" name="minutes" class="form-control" placeholder="Minutes"
+                                                    value="{{ old('minutes', $application->minutes ?? 0) }}" min="0" max="59" required>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="w-100 my-1"></div>      
-                                    @foreach($student->studentfiles as $single)
+                                    @foreach($applicant->applicantfiles as $single)
                                         <div class="col-md-3 mt-2 mb-6">
                                             <label for="documentPassport" class="form-label" style="color: #FF6D43">
                                                 {{$single->filename}} <span class="text-danger">*</span>:
                                             </label>
                                             <input type="hidden" value="{{$single->filename}}" name="filename[]" class="form-control" />
                                             <div class="input-group ">
-                                                <input type="file" name="studentfiles[]" class="form-control" />
+                                                <input type="file" name="applicantfiles[]" class="form-control" />
                                             </div>
                                             <div id="passportDownloadLink" class="mt-2">
                                                 <a href="{{ asset('storage/' . $single->filepath) }}"
@@ -352,7 +370,7 @@
                                             </div>
                                             <div class="col-md-8">
                                             <div class="input-group mb-3">
-                                                <input type="file" name="studentfiles[]" class="form-control" />
+                                                <input type="file" name="applicantfiles[]" class="form-control" />
                                             </div>
                                             </div>
                                         </div>
@@ -370,7 +388,7 @@
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="notes" class="form-label">Notes</label>
-                                    <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Enter notes..." required>{{ old('notes', $student->notes) }}</textarea>
+                                    <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Enter notes..." required>{{ old('notes', $applicant->notes) }}</textarea>
                                     @error('notes')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -477,7 +495,7 @@
             </div>
             <div class="col-md-8">
                 <div class="input-group mb-3">
-                <input type="file" name="studentfiles[]" class="form-control" required>
+                <input type="file" name="applicantfiles[]" class="form-control" required>
                 </div>
             </div>
             </div>

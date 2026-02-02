@@ -208,13 +208,7 @@
                                             <label for="intakeYear" class="form-label">
                                                 Going Year <span class="text-danger">*</span>:
                                             </label>
-                                            <input type="month"
-                                                name="going_year"
-                                                class="form-control"
-                                                placeholder="YYYY"
-                                                id="goingYear"
-                                                value="{{ old('going_year') }}"
-                                                required />
+                                            <input type="month" name="going_year" class="form-control" placeholder="YYYY" id="goingYear" value="{{ old('going_year') }}" required />
                                         </div>
                                         @error('going_year')
                                             <div class="text-danger">{{ $message }}</div>

@@ -189,7 +189,7 @@
                                                                 <select id="studentSelect{{ $job->id }}" data-choices id="choices-single-default"
                                                                         class="form-control"
                                                                         onchange="updateStartButton({{ $job->id }})">
-                                                                    <option value="">-- Select Student --</option>
+                                                                    <option value="">-- Select Applicant --</option>
                                                                     @foreach($applicants as $applicant)
                                                                         <option value="{{ $applicant->id }}">{{ $applicant->name }} ({{ $applicant->email }})</option>
                                                                     @endforeach
@@ -315,10 +315,11 @@
                 });
                 return;
             }
+ 
+            const url = "{{ route('add_application_eix_applicant', ['job_id' => '__job_id__', 'applicant_id' => '__applicant_id__']) }}"
+            .replace('__job_id__', courseId) 
+            .replace('__applicant_id__', selectedStudentId);
 
-            const url = "{{ route('add_application_eix_student', ['course_id' => '__course_id__', 'student_id' => '__student_id__']) }}"
-                .replace('__course_id__', courseId)
-                .replace('__student_id__', selectedStudentId);
 
             // Redirect to that page
             window.location.href = url;

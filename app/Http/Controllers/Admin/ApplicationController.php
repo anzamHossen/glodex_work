@@ -69,7 +69,7 @@ class ApplicationController extends Controller
         return view('admin.application.all-application', compact('applications'));
     }
 
-    // function to add application for new student
+    // function to add application for new applicant
     public function addApplicationNewApplicant($job_id)
     {
         $job                = CompanyJob::find($job_id);
@@ -101,7 +101,7 @@ class ApplicationController extends Controller
             ->exists();
 
         if ($existingApplicant) {
-            Alert::error('Error', 'Student Already Exists');
+            Alert::error('Error', 'Applicant Already Exists');
             return redirect()->back()->withInput();
         }
 
@@ -109,14 +109,13 @@ class ApplicationController extends Controller
 
         try {
 
-            // 🔒 LOCK job row
             $job = CompanyJob::lockForUpdate()->find($request->job_id);
 
             if (!$job || $job->avilable_positions <= 0) {
                 throw new \Exception('No available positions left for this job.');
             }
 
-            // ➖ Decrease available position
+            // Decrease available position
             $job->decrement('avilable_positions');
 
             // Create User
@@ -224,31 +223,66 @@ class ApplicationController extends Controller
     }
 
     // function to add application for existing student
-    public function addApplicationEixStudent($course_id, $student_id)
-    {
-        $applicationExists = Application::where('course_id', $course_id)
-        ->where('student_id', $student_id)
-        ->exists();
+    // public function addApplicationEixApplicant($job_id, $applicant_id)
+    // {
+    //     $applicationExists = Application::where('job_id', $job_id)
+    //     ->where('applicant_id', $applicant_id)
+    //     ->exists();
 
-        if ($applicationExists) {
-            Alert::error('Error', 'In this course the student application in progress');
+    //     if ($applicationExists) {
+    //         Alert::error('Error', 'In this job the applicant application in progress');
+    //         return redirect()->back();
+    //     }
+
+    //     $job                    = CompanyJob::find($job_id);
+    //     $applicant              = Applicant::find($applicant_id);
+    //     $applicationStatus      = ApplicationStatus::all();
+    //     $englishTests           = json_decode($applicant->english_proficiency, true) ?? [];
+    //     $academicQualifications = json_decode($applicant->academic_qualifications, true) ?? [];
+    //     return view('admin.application.add-application-existing-applicant', compact('job','applicant','applicationStatus','englishTests','academicQualifications'));
+    // }
+
+    public function addApplicationEixApplicant($job_id, $applicant_id)
+    {
+        // Find job & applicant
+        $job = CompanyJob::find($job_id);
+        $applicant = Applicant::find($applicant_id);
+
+        // If either is missing, redirect back safely
+        if (!$job || !$applicant) {
+            Alert::error('Error', 'Job or Applicant not found');
             return redirect()->back();
         }
 
-        $course   = Course::find($course_id);
-        $student  = StudentInfo::find($student_id);
-        $applicationStatus = ApplicationStatus::all();
-        $englishTests = json_decode($student->english_proficiency, true) ?? [];
-        $academicQualifications = json_decode($student->academic_qualifications, true) ?? [];
-        return view('admin.application.add-application-existing-student', compact('course','student','applicationStatus','englishTests','academicQualifications'));
+        // Check if application already exists
+        $applicationExists = Application::where('job_id', $job_id)
+            ->where('applicant_id', $applicant_id)
+            ->exists();
+
+        if ($applicationExists) {
+            Alert::error('Error', 'This applicant already has an application for this job');
+            return redirect()->back();
+        }
+
+        $applicationStatus      = ApplicationStatus::all();
+        $englishTests           = json_decode($applicant->english_proficiency, true) ?? [];
+        $academicQualifications = json_decode($applicant->academic_qualifications, true) ?? [];
+
+        return view('admin.application.add-application-existing-applicant', compact(
+            'job',
+            'applicant',
+            'applicationStatus',
+            'englishTests',
+            'academicQualifications'
+        ));
     }
 
+
     // function to save application for existing student
-    public function saveApplicationEixStudent(Request $request)
+    public function saveApplicationEixApplicant(Request $request)
     {
         $request->validate([
-            'student_id'        => 'required|exists:student_infos,id',
-            'course_id'         => 'required|exists:courses,id',
+            'applicant_id'      => 'required|exists:applicants,id',
             'name'              => 'required|string|max:50',
             'phone'             => 'required',
             'email'             => 'required|email',
@@ -256,22 +290,35 @@ class ApplicationController extends Controller
             'passport_no'       => 'required|string',
             'permanent_address' => 'required|string',
             'gender'            => 'required',
-            'intake_year'       => 'required',
+            'going_year'        => 'required',
+            'days'    => 'required|integer|min:0',
+            'hours'   => 'required|integer|min:0|max:23',
+            'seconds' => 'required|integer|min:0|max:59',
+            'job_id'  => 'required|exists:company_jobs,id',
         ]);
 
         DB::beginTransaction();
 
         try {
-            // Find existing student
-            $studentInfo = StudentInfo::find($request->student_id);
+            // Find existing applicant
+            $applicantInfo = Applicant::find($request->applicant_id);
 
-            if (!$studentInfo) {
-                Alert::error('Error', 'Student not found.');
+            if (!$applicantInfo) {
+                Alert::error('Error', 'Applicant not found.');
                 return redirect()->back();
             }
 
-            //Update Student Info
-            $studentInfo->update([
+            $job = CompanyJob::lockForUpdate()->find($request->job_id);
+
+            if (!$job || $job->avilable_positions <= 0) {
+                throw new \Exception('No available positions left for this job.');
+            }
+
+            // Decrease available position
+            $job->decrement('avilable_positions');
+
+            //Update Applicant Info
+            $applicantInfo->update([
                 'name'              => $request->name,
                 'phone'             => $request->phone,
                 'email'             => $request->email,
@@ -298,8 +345,8 @@ class ApplicationController extends Controller
                         'overall'   => $test['overall'] ?? null,
                     ];
                 }
-                $studentInfo->english_proficiency = json_encode($englishTests);
-                $studentInfo->save();
+                $applicantInfo->english_proficiency = json_encode($englishTests);
+                $applicantInfo->save();
             }
 
             //Update Academic Qualifications
@@ -313,88 +360,148 @@ class ApplicationController extends Controller
                         'passing_year'   => $qualification['passing_year'] ?? null,
                     ];
                 }
-                $studentInfo->academic_qualifications = json_encode($academicQualifications);
-                $studentInfo->save();
+                $applicantInfo->academic_qualifications = json_encode($academicQualifications);
+                $applicantInfo->save();
             }
 
-            //Upload Student Files (if any new files)
-            if ($request->hasFile('studentfiles')) {
-                $studentFiles = $request->file('studentfiles');
+            //Upload Applicant Files (if any new files)
+            if ($request->hasFile('applicantfiles')) {
+                $applicantFiles = $request->file('applicantfiles');
                 $filenames = $request->input('filename');
 
-                foreach ($studentFiles as $key => $single) {
+                foreach ($applicantFiles as $key => $single) {
                     $originalFileName = $single->getClientOriginalName();
-                    $newFileName = Carbon::now()->timestamp . '_' . $studentInfo->name . '_' . $originalFileName;
+                    $newFileName = Carbon::now()->timestamp . '_' . $applicantInfo->name . '_' . $originalFileName;
                     $filePath = $single->storeAs($filenames[$key], $newFileName, 'public');
 
-                    StudentFile::create([
-                        'student_id' => $studentInfo->id,
+                    ApplicantFile::create([
+                        'applicant_id' => $applicantInfo->id,
                         'filename'   => $filenames[$key],
                         'filepath'   => $filePath,
                     ]);
                 }
             }
 
-            //Create Application for this student
+            $expiresAt = now()
+                ->addDays((int)$request->days)
+                ->addHours((int)$request->hours)
+                ->addSeconds((int)$request->seconds);
+
+            //Create Application for this applicant
             Application::create([
-                'user_id'     => Auth::id(),
-                'course_id'   => $request->course_id,
-                'student_id'  => $studentInfo->id,
-                'sent_by'     => 'Glodex',
+                'user_id' => Auth::id(),
+                'job_id' => $job->id,
+                'applicant_id' => $applicantInfo->id,
+                'sent_by' => 'Glodex',
                 'application_code' => rand(100000, 999999),
-                'status'      => $request->status ?? 'pending',
-                'created_by'  => Auth::id(),
-                'intake_year' => $request->intake_year,
+                'status' => $request->status,
+                'created_by' => Auth::id(),
+                'going_year' => $request->going_year,
+                'expires_at' => $expiresAt,
             ]);
 
             DB::commit();
 
-            Alert::success('Success', 'Application added successfully for existing student.');
+            Alert::success('Success', 'Application added successfully for existing applicant.');
             return redirect()->route('my_application_list');
 
         } catch (\Exception $e) {
-            DB::rollBack();
-            // dd($e->getMessage());
+            // DB::rollBack();
+            dd($e->getMessage());
             Alert::error('Error', 'Failed to add application, Try Again.');
             return redirect()->back()->withInput();
         }
     }
 
     // function to edit application
-    public function editApplication($id, $course_id, $student_id)
+    // public function editApplication($id, $job_id, $applicant_id)
+    // {
+    //     $application = Application::find($id);
+
+    //     if (!$application) {
+    //     Alert::error('Error', 'Application not found.');
+    //     return redirect()->back();
+    //     }
+
+    //     $job = CompanyJob::find($job_id);
+
+    //     if (!$job) {
+    //         Alert::error('Error', 'Job not found..');
+    //         return redirect()->back();
+    //     }
+
+    //     if (!$applicant_id || !Applicant::find($applicant_id)) {
+    //          Alert::error('Error', 'Applicant record has been deleted or is invalid.');
+    //     return redirect()->back();
+    //     }
+
+    //     $applicant = Applicant::find($applicant_id);
+    //     $applicationStatus = ApplicationStatus::all();
+    //     $englishTests = json_decode($applicant->english_proficiency, true) ?? [];
+    //     $academicQualifications = json_decode($applicant->academic_qualifications, true) ?? [];
+    //     return view('admin.application.edit-application', compact('application', 'job', 'applicant', 'applicationStatus', 'englishTests', 'academicQualifications'));
+    // }
+
+
+    public function editApplication($id, $job_id, $applicant_id)
     {
         $application = Application::find($id);
 
         if (!$application) {
-        Alert::error('Error', 'Application not found.');
-        return redirect()->back();
+            Alert::error('Error', 'Application not found.');
+            return redirect()->back();
         }
 
-        $course = Course::find($course_id);
-
-        if (!$course) {
-        Alert::error('Error', 'Course not found..');
-        return redirect()->back();
+        $job = CompanyJob::find($job_id);
+        if (!$job) {
+            Alert::error('Error', 'Job not found.');
+            return redirect()->back();
         }
 
-        if (!$student_id || !StudentInfo::find($student_id)) {
-        Alert::error('Error', 'Student record has been deleted or is invalid.');
-        return redirect()->back();
+        if (!$applicant_id || !Applicant::find($applicant_id)) {
+            Alert::error('Error', 'Applicant record has been deleted or is invalid.');
+            return redirect()->back();
         }
 
-        $student = StudentInfo::find($student_id);
+        $applicant = Applicant::find($applicant_id);
+
+        // Make sure expires_at is a Carbon instance
+        if ($application->expires_at) {
+            $expiresAt = Carbon::parse($application->expires_at); // parse string to Carbon
+            $now = Carbon::now();
+            $diff = $expiresAt->diff($now);
+
+            // Add attributes to $application for Blade
+            $application->days = $diff->invert ? $diff->d : 0; // invert = future
+            $application->hours = $diff->invert ? $diff->h : 0;
+            $application->minutes = $diff->invert ? $diff->i : 0;
+        } else {
+            $application->days = 0;
+            $application->hours = 0;
+            $application->minutes = 0;
+        }
+
         $applicationStatus = ApplicationStatus::all();
-        $englishTests = json_decode($student->english_proficiency, true) ?? [];
-        $academicQualifications = json_decode($student->academic_qualifications, true) ?? [];
-        return view('admin.application.edit-application', compact('application', 'course', 'student', 'applicationStatus', 'englishTests', 'academicQualifications'));
+        $englishTests = json_decode($applicant->english_proficiency, true) ?? [];
+        $academicQualifications = json_decode($applicant->academic_qualifications, true) ?? [];
+
+        return view('admin.application.edit-application', compact(
+            'application',
+            'job',
+            'applicant',
+            'applicationStatus',
+            'englishTests',
+            'academicQualifications'
+        ));
     }
+
 
     // function to update application
     public function updateApplication(Request $request, $id)
     {
         $request->validate([
-            'student_id'        => 'required|exists:student_infos,id',
-            'course_id'         => 'required|exists:courses,id',
+            'applicant_id'      => 'required|exists:applicants,id',
+            'job_id'            => 'required|exists:company_jobs,id',
             'name'              => 'required|string|max:50',
             'phone'             => 'required',
             'email'             => 'required|email',
@@ -402,22 +509,25 @@ class ApplicationController extends Controller
             'passport_no'       => 'required|string',
             'permanent_address' => 'required|string',
             'gender'            => 'required',
-            'intake_year'       => 'required',
+            'going_year'        => 'required',
+            'days'              => 'required|integer|min:0',
+            'hours'             => 'required|integer|min:0|max:23',
+            'minutes'           => 'required|integer|min:0|max:59',
         ]);
 
         DB::beginTransaction();
 
         try {
-            // Find existing student
-            $studentInfo = StudentInfo::find($request->student_id);
+            // Find existing applicant
+            $applicantInfo = Applicant::find($request->applicant_id);
 
-            if (!$studentInfo) {
-                Alert::error('Error', 'Student not found.');
+            if (!$applicantInfo) {
+                Alert::error('Error', 'Applicant not found.');
                 return redirect()->back();
             }
 
             //Update Student Info
-            $studentInfo->update([
+            $applicantInfo->update([
                 'name'              => $request->name,
                 'phone'             => $request->phone,
                 'email'             => $request->email,
@@ -444,8 +554,8 @@ class ApplicationController extends Controller
                         'overall'   => $test['overall'] ?? null,
                     ];
                 }
-                $studentInfo->english_proficiency = json_encode($englishTests);
-                $studentInfo->save();
+                $applicantInfo->english_proficiency = json_encode($englishTests);
+                $applicantInfo->save();
             }
 
             //Update Academic Qualifications
@@ -459,42 +569,48 @@ class ApplicationController extends Controller
                         'passing_year'   => $qualification['passing_year'] ?? null,
                     ];
                 }
-                $studentInfo->academic_qualifications = json_encode($academicQualifications);
-                $studentInfo->save();
+                $applicantInfo->academic_qualifications = json_encode($academicQualifications);
+                $applicantInfo->save();
             }
 
-            //Upload Student Files (if any new files)
-            if ($request->hasFile('studentfiles')) {
-                $studentFiles = $request->file('studentfiles');
+            //Upload Applicant Files (if any new files)
+            if ($request->hasFile('applicantfiles')) {
+                $applicantFiles = $request->file('applicantfiles');
                 $filenames = $request->input('filename');
 
-                foreach ($studentFiles as $key => $single) {
+                foreach ($applicantFiles as $key => $single) {
                     $originalFileName = $single->getClientOriginalName();
-                    $newFileName = Carbon::now()->timestamp . '_' . $studentInfo->name . '_' . $originalFileName;
+                    $newFileName = Carbon::now()->timestamp . '_' . $applicantInfo->name . '_' . $originalFileName;
                     $filePath = $single->storeAs($filenames[$key], $newFileName, 'public');
 
-                    StudentFile::create([
-                        'student_id' => $studentInfo->id,
-                        'filename'   => $filenames[$key],
-                        'filepath'   => $filePath,
+                    ApplicantFile::create([
+                        'applicant_id' => $applicantInfo->id,
+                        'filename'     => $filenames[$key],
+                        'filepath'     => $filePath,
                     ]);
                 }
             }
 
-            $updateApplication = Application::findOrFail($id);
-            $updateApplication->student_id  = $studentInfo->id;
-            $updateApplication->course_id   = $request->input('course_id');
-            $updateApplication->status      = $request->input('status') ?? 'In Progress';
-            $updateApplication->intake_year = $request->input('intake_year');
+            $expiresAt = now()
+                ->addDays((int)$request->days)
+                ->addHours((int)$request->hours)
+                ->addMinutes((int)$request->minutes);
+
+            $updateApplication               = Application::findOrFail($id);
+            $updateApplication->applicant_id = $applicantInfo->id;
+            $updateApplication->job_id       = $request->input('job_id');
+            $updateApplication->status       = $request->input('status') ?? 'In Progress';
+            $updateApplication->going_year   = $request->input('going_year');
+            $updateApplication->expires_at   = $expiresAt;
 
             $updateApplication->save();
             DB::commit();
-            Alert::success('Success', 'Application update successfully for existing student.');
+            Alert::success('Success', 'Application update successfully applicant.');
             return redirect()->back();
 
         } catch (\Exception $e) {
             DB::rollBack();
-            // dd($e->getMessage());
+            dd($e);
             Alert::error('Error', 'Failed to update application, Try Again.');
             return redirect()->back()->withInput();
         }

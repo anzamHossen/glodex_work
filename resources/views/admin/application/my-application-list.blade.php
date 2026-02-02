@@ -56,19 +56,19 @@
                                                         </button>
 
                                                         <div class="dropdown-menu">
-                                                            @can('Edit Application')
+                                                            {{-- @can('Edit Application') --}}
                                                             <li>
-                                                                <a class="dropdown-item d-flex align-items-center gap-1" href="{{ $application->student
+                                                                <a class="dropdown-item d-flex align-items-center gap-1" href="{{ $application->applicant
                                                                     ? route('edit_application', [
-                                                                        'student_id' => $application->student->id,
-                                                                        'course_id' => $application->course->id,
+                                                                        'applicant_id' => $application->applicant->id,
+                                                                        'job_id' => $application->job->id,
                                                                         'id' => $application->id,
                                                                     ])
                                                                     : '#' }}">
                                                                     <i class="ti ti-edit"></i> Edit
                                                                 </a>
                                                             </li>
-                                                            @endcan
+                                                            {{-- @endcan --}}
 
                                                             {{-- <a href="javascript:void(0);" 
                                                                 onclick="confirmDelete()" 
