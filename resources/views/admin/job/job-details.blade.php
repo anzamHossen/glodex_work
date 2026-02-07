@@ -192,7 +192,7 @@
                                                 <h2 class="h3 fw-bold text-white mb-3">
                                                     Ready to Start Your Career?
                                                 </h2>
-                                                <a href="{{ route('course_list') }}"
+                                                <a href="{{ route('job_list') }}"
                                                     class="btn btn-gradient btn-lg text-white border-0 d-inline-flex align-items-center gap-2">
                                                     <i class="ti ti-arrow-right"></i>
                                                     Apply Now

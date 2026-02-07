@@ -13,7 +13,7 @@ class AgentCountryController extends Controller
     {
         $countries = Country::with('countryContinent')
         ->where('status', 1)
-        ->withCount(['universities', 'courses'])
+        ->withCount(['companies', 'jobs'])
         ->orderBy('country_name', 'asc')
         ->paginate(8);
         return view('agent.country.agent-country-list', compact('countries'));

@@ -32,7 +32,7 @@
                                                 <i class="ti ti-flag-heart"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">{{ $agentTotalCountries ?? 0 }}</h3>
+                                        <h3 class="mb-0 fw-bold">0</h3>
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                                 <i class="ti ti-universe"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">{{ $agentTotalUniversities ?? 0 }}</h3>
+                                        <h3 class="mb-0 fw-bold">0</h3>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                                 <i class="ti ti-book"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">{{ $agentTotalCourses ?? 0}}</h3>
+                                        <h3 class="mb-0 fw-bold">0</h3>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                                 <i class="ti ti-user-check"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">{{ $agentTotalStudents ?? 0}}</h3>
+                                        <h3 class="mb-0 fw-bold">0</h3>
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@
                                                 <i class="ti ti-brand-redux"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">{{ $agentTotalApplications ?? 0}}</h3>
+                                        <h3 class="mb-0 fw-bold">0</h3>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                                 <i class="ti ti-users-group"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">{{ $AgentInProgressApplication ?? 0 }}</h3>
+                                        <h3 class="mb-0 fw-bold">0</h3>
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                                                 <i class="ti ti-circle-check"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">{{ $agentTotalVisaGranted ?? 0}}</h3>
+                                        <h3 class="mb-0 fw-bold">0</h3>
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
                                                 <i class="ti ti-pentagon-x"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">{{ $agentTotalVisaRejected ?? 0}}</h3>
+                                        <h3 class="mb-0 fw-bold">0</h3>
                                     </div>
                                 </div>
                             </div>

@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Admin\UserActiveController;
 use App\Http\Controllers\Agent\AgentApplicationController;
+use App\Http\Controllers\Agent\AgentCompanyController;
+use App\Http\Controllers\Agent\AgentCompanyJobController;
 use App\Http\Controllers\Agent\AgentCountryController;
 use App\Http\Controllers\Agent\AgentCourseController;
 use App\Http\Controllers\Agent\AgentDashboardController;
@@ -164,23 +166,23 @@ Route::prefix('agent')->middleware(['agent'])->group(function () {
         Route::get('/agent-country-details/{id}', 'agentCountryDetails')->name('agent_country_details');
         Route::get('/search-agent-countries', 'searchAgentCountries')->name('search_agent_countries');
     });
-
-    // Route for agent university
-    Route::controller(AgentUniversityController::class)->group(function () {
-        Route::get('/agent-university-list', 'agentUniversityList')->name('agent_university_list');
-        Route::get('/search-agent-university', 'searchAgentUniversity')->name('search_agent_university');
-        Route::get('/agent-university-details/{id}', 'agentUniversityDetails')->name('agent_university_details');
+    
+    // Route for agent company 
+    Route::controller(AgentCompanyController::class)->group(function () {
+        Route::get('/agent-company-list', 'agentCompanyList')->name('agent_company_list');
+        Route::get('/search-agent-company', 'searchAgentCompany')->name('search_agent_company');
+        Route::get('/agent-company-details/{id}', 'agentCompanyDetails')->name('agent_company_details');
     });
 
-    // Route for agent course
-    Route::controller(AgentCourseController::class)->group(function () {
-        Route::get('/agent-course-list', 'agentCourseList')->name('agent_course_list');
-        Route::get('/agent-course-details/{id}', 'agentCourseDetails')->name('agent_course_details');
-        Route::get('/agent-search-course', 'agentSearchCourse')->name('agent_search_course');
-        Route::get('/agent-filter-course', 'agentFilterCourse')->name('agent_filter_course');           
-    });
+    // Route for agent company job
+    Route::controller(AgentCompanyJobController::class)->group(function () {
+        Route::get('/agent-job-list', 'agentJobList')->name('agent_job_list');
+        Route::get('/agent-job-details/{id}', 'agentJobDetails')->name('agent_job_details');
+        Route::get('/agent-search-job', 'agentSearchJob')->name('agent_search_job');
+        Route::get('/agent-filter-job', 'agentFilterJob')->name('agent_filter_job');
+    });   
 
-     // Route for agent students
+    // Route for agent students
     Route::controller(AgentStudentController::class)->group(function () {
         Route::get('/agent-student-list', 'agentStudentList')->name('agent_student_list');
         Route::get('/agent-add-new-student', 'agentAddNewStudent')->name('agent_add_new_student');

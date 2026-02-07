@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '| Course Details')
+@section('title', '| Job Details')
 @push('page-css')
     <link rel="stylesheet" href="{{ asset('css/country/country-details.css') }}">
     <link rel="stylesheet" href="{{ asset('css/university/university-details.css') }}">
@@ -13,9 +13,9 @@
                     <div class="card">
                         <div
                             class="card-header border-bottom border-dashed d-flex align-items-center justify-content-between">
-                            <h4 class="header-title mb-0">Course Details</h4>
+                            <h4 class="header-title mb-0">Job Details</h4>
                             <div class="d-flex">
-                                <a href="{{ route('agent_course_list') }}" class="btn btn-sm btn-secondary me-2">
+                                <a href="{{ route('agent_job_list') }}" class="btn btn-sm btn-secondary me-2">
                                     <i class="ti ti-arrow-back-up"
                                         style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Go Back
@@ -31,26 +31,25 @@
                                                 <div
                                                     class="country-details-cover-photo border-0 shadow-sm position-relative">
                                                     <img class="img-fluid"
-                                                        src="{{ $courseDetails->university && $courseDetails->university->cover_image && file_exists(public_path($courseDetails->university->cover_image)) 
-                                                        ? asset($courseDetails->university->cover_image) 
+                                                        src="{{ $jobDetails->country && $jobDetails->country->flag && file_exists(public_path($jobDetails->company->flag)) 
+                                                        ? asset($jobDetails->country->flag) 
                                                         : asset('back-end/assets/images/dr-profile/image-upload.jpg') }}"
-                                                        alt="University Cover Photo">
+                                                        alt="Company Cover Photo">
                                                     <div class="country-details-top-info">
                                                         <div class="text-white country-details-top-info-inner">
                                                             <h2 class="mb-2">
-                                                                {{ $courseDetails->course_name ?? 'Not Added' }}
+                                                                {{ $jobDetails->job_name ?? 'Not Added' }}
                                                             </h2>
                                                             <p class="lead">
-                                                                Discover world-class education opportunities in one of the
-                                                                most prestigious academic destinations.
+                                                                Step into a world of top-tier job opportunities in a prestigious international destination.
                                                             </p>
                                                         </div>
                                                     </div>
                                                     <div class="country-details-cover-bottom-flag">
-                                                    <img src="{{ $courseDetails->university && $courseDetails->university->logo && file_exists(public_path($courseDetails->university->logo)) 
-                                                        ? asset($courseDetails->university->logo) 
+                                                    <img src="{{ $jobDetails->company && $jobDetails->company->logo && file_exists(public_path($jobDetails->company->logo)) 
+                                                        ? asset($jobDetails->company->logo) 
                                                         : asset('back-end/assets/images/dr-profile/image-upload.jpg') }}"
-                                                        alt="{{ $courseDetails->university->name ?? 'University Logo' }}"
+                                                        alt="{{ $jobDetails->company->name ?? 'Company Logo' }}"
                                                         class="img-fluid rounded-circle">
                                                     </div>
                                                 </div>
@@ -70,9 +69,9 @@
                                                             <i class="ti ti-building text-white fs-3"></i>
                                                         </div>
                                                         <h3 class="h3 fw-bold text-white mb-2">
-                                                            {{ $courseDetails->university->university_name ?? 'Not Added' }}
+                                                            {{ $jobDetails->company->company_name ?? 'Not Added' }}
                                                         </h3>
-                                                        <p class="text-white opacity-75 mb-0">Location</p>
+                                                        <p class="text-white opacity-75 mb-0">Company</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,7 +83,7 @@
                                                             class="d-inline-flex align-items-center justify-content-center mb-2 country-details-stats-icon">
                                                             <i class="ti ti-world-star text-white fs-3"></i>
                                                         </div>
-                                                        <h3 class="h3 fw-bold text-white mb-2">{{ $courseDetails->country->country_name ?? 'Not Added' }}</h3>
+                                                        <h3 class="h3 fw-bold text-white mb-2">{{ $jobDetails->country->country_name ?? 'Not Added' }}</h3>
                                                         <p class="text-white opacity-75 mb-0">Country</p>
                                                     </div>
                                                 </div>
@@ -98,21 +97,9 @@
                                                             <i class="ti ti-vocabulary text-white fs-3"></i>
                                                         </div>
                                                         <h3 class="h3 fw-bold text-white">
-                                                            @if($courseDetails->program_length == 1)
-                                                                1 Year
-                                                            @elseif($courseDetails->program_length == 2)
-                                                                2 Years
-                                                            @elseif($courseDetails->program_length == 3)
-                                                                3 Years
-                                                            @elseif($courseDetails->program_length == 4)
-                                                                4 Years
-                                                            @elseif($courseDetails->program_length == 5)
-                                                                5 Years
-                                                            @else
-                                                                Not Specified
-                                                            @endif
+                                                            {{ $jobDetails->avilable_positions ?? 'Not Added' }}
                                                         </h3>
-                                                        <p class="text-white opacity-75 mb-0">Duration</p>
+                                                        <p class="text-white opacity-75 mb-0">Avilable Job</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -125,23 +112,21 @@
                                                             <i class="ti ti-briefcase text-white fs-3"></i>
                                                         </div>
                                                         <h3 class="h3 fw-bold text-white mb-2">
-                                                            {{ $courseDetails->courseProgram->course_program ?? 'Not Added' }}
+                                                            {{ $jobDetails->experience_level ?? 'Not Added' }}
                                                         </h3>
-                                                        <p class="text-white opacity-75 mb-0">Level</p>
+                                                        <p class="text-white opacity-75 mb-0">Experience</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </section>
-
-
                                 <section class="py-4">
                                     <div class="container">
                                         <div class="info-section row">
                                             <div class="col-md-12">
                                                 <h2 class="section-title">
-                                                    <i class="bi bi-building"></i>Course Information
+                                                    <i class="bi bi-building"></i>Job Information
                                                 </h2>
                                             </div>
                                         </div>
@@ -149,31 +134,31 @@
                                         <div class="row pb-4">
                                             <div class="col-md-6">
                                                 <div class="info-card">
-                                                    <div class="info-label">Application Fee</div>
-                                                    <div class="info-value">{{ $courseDetails->application_fee ?? 'N/A' }}</div>
+                                                    <div class="info-label">Intial Fees</div>
+                                                    <div class="info-value">{{ $jobDetails->intial_fees ?? 'Not Added' }}</div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="info-card">
-                                                    <div class="info-label">Tuition Fee/Year</div>
+                                                    <div class="info-label">Job Location</div>
                                                     <div class="info-value">
-                                                        {{ $courseDetails->tuition_fee_per_year ?? 'N/A' }}
+                                                        {{ $jobDetails->job_location ?? 'N/A' }}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="info-card">
-                                                    <div class="info-label">Intake/Year</div>
+                                                    <div class="info-label">Job Type</div>
                                                     <div class="info-value">
-                                                        {{ $courseDetails->intake_month_names ?? 'Not Added' }}
+                                                        {{ $jobDetails->job_type == 1 ? 'Full Time' : ($jobDetails->job_type == 2 ? 'Part Time' : 'Not Added') }}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="info-card">
-                                                    <div class="info-label">Program Type</div>
+                                                    <div class="info-label">Career Growth</div>
                                                     <div class="info-value">
-                                                        Full-Time
+                                                        Opportunities for promotion & skill development
                                                     </div>
                                                 </div>
                                             </div>
@@ -188,10 +173,10 @@
                                                 <div class="card border-0 shadow-sm p-4 mb-0">
                                                     <h3 class="h3 fw-bold text-white mb-2 "><i
                                                             class="ti ti-layout-bottombar-expand"></i> About
-                                                        This Course
+                                                        This Job
                                                     </h3>
                                                     <p class="text-white">
-                                                         {!! $courseDetails->course_details !!}
+                                                         {!! $jobDetails->job_details !!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -205,9 +190,9 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <h2 class="h3 fw-bold text-white mb-3">
-                                                    Ready to Start Your Journey?
+                                                    Ready to Start Your Career?
                                                 </h2>
-                                                <a href="{{ route('agent_course_list') }}"
+                                                <a href="{{ route('job_list') }}"
                                                     class="btn btn-gradient btn-lg text-white border-0 d-inline-flex align-items-center gap-2">
                                                     <i class="ti ti-arrow-right"></i>
                                                     Apply Now

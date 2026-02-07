@@ -64,11 +64,11 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <a class="dropdown-item" href="{{ route('search_agent_university', ['country_id' => $country->id]) }}" target="_blank"><i class="ti ti-school me-2"></i>Universities</a>
+                                                        <a class="dropdown-item" href="{{ route('search_agent_company', ['country_id' => $country->id]) }}" target="_blank"><i class="ti ti-school me-2"></i>Companies</a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="{{ route('agent_filter_course', ['country_id' => $country->id]) }}" target="_blank">
-                                                            <i class="ti ti-book-2 me-2"></i> Courses
+                                                        <a class="dropdown-item" href="{{ route('agent_filter_job', ['country_id' => $country->id]) }}" target="_blank">
+                                                            <i class="ti ti-book-2 me-2"></i> Jobs
                                                         </a>
                                                     </li>
                                                     <li><a class="dropdown-item" href="{{ route('agent_country_details', $country->id) }}"><i class="ti ti-map-pin me-2"></i> Country Details</a></li>
@@ -90,12 +90,12 @@
                                                 <span class="  d-block mb-2">{{ $country->countryContinent->continent_name ?? '--' }}</span>
                                                 <div class="glodex-country-info d-flex align-items-center justify-content-between text-center">
                                                     <div>
-                                                        <p class="mb-0">Total University</p>
-                                                        <p class="mb-0 fw-semibold">{{ $country->universities_count ?? 0 }}</p>
+                                                        <p class="mb-0">Total Company</p>
+                                                        <p class="mb-0 fw-semibold">{{ $country->companies_count ?? 0 }}</p>
                                                     </div>
                                                     <div>
-                                                        <p class="mb-0">Total Courses</p>
-                                                        <p class="mb-0 fw-semibold">{{ $country->courses_count ?? 0 }}</p>
+                                                        <p class="mb-0">Total Job</p>
+                                                        <p class="mb-0 fw-semibold">{{ $country->jobs_count ?? 0 }}</p>
                                                     </div>
                                                 </div>
                                                 <button class="btn btn-sm btn-gradient mt-3 px-3 py-1">Active</button>

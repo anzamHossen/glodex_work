@@ -50,15 +50,15 @@
             </a>
         </li>
         <li class="side-nav-item">
-            <a href="{{ route('agent_university_list') }}" class="side-nav-link">
-                <span class="menu-icon"><i class="ti ti-map-heart"></i></span>
-                <span class="menu-text">University</span>
+            <a href="{{ route('agent_company_list') }}" class="side-nav-link">
+                <span class="menu-icon"><i class="ti ti-brand-bumble"></i></span>
+                <span class="menu-text">Companies</span>
             </a>
         </li>
         <li class="side-nav-item">
-            <a href="{{ route('agent_course_list') }}" class="side-nav-link">
-                <span class="menu-icon"><i class="ti ti-notebook"></i></span>
-                <span class="menu-text">Course</span>
+            <a href="{{ route('agent_job_list') }}" class="side-nav-link">
+                <span class="menu-icon"><i class="ti ti-briefcase"></i></span>
+                <span class="menu-text">Jobs</span>
             </a>
         </li>
         <li class="side-nav-item">
