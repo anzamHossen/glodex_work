@@ -63,20 +63,20 @@
         </li>
         <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarHospital" aria-expanded="false" aria-controls="sidebarHospital" class="side-nav-link">
-                <span class="menu-icon"><i class="ti ti-school"></i></span>
-                <span class="menu-text">Student</span>
+                <span class="menu-icon"><i class="ti ti-api-app"></i></span>
+                <span class="menu-text">Applicant</span>
                 <span class="menu-arrow"></span>
             </a>
             <div class="collapse" id="sidebarHospital">
                 <ul class="sub-menu">
                     <li class="side-nav-item">
-                        <a href="{{ route('agent_add_new_student') }}" class="side-nav-link">
-                            <span class="menu-text">Add Student</span>
+                        <a href="{{ route('agent_add_new_applicant') }}" class="side-nav-link">
+                            <span class="menu-text">Add Applicant</span>
                         </a>
                     </li>
                     <li class="side-nav-item">
-                        <a href="{{ route('agent_student_list') }}" class="side-nav-link">
-                            <span class="menu-text">Student List</span>
+                        <a href="{{ route('agent_applicant_list') }}" class="side-nav-link">
+                            <span class="menu-text">Applicant List</span>
                         </a>
                     </li>
                 </ul>

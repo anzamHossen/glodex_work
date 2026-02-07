@@ -1,41 +1,40 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Applicant;
 use App\Models\Admin\ApplicantFile;
-use App\Models\Admin\Application;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class ApplicantController extends Controller
+class AgentApplicantController extends Controller
 {
-    
-    //  function to show my applicant list
-    public function myApplicantList()
+
+    //  Function to show agent student list
+    public function agentApplicantList()
     {
-        $applicants = Applicant::whereHas('createdBy', function ($query) {
-            $query->whereIn('user_type', [1, 3]);
-        })->get();
+        $applicants = Applicant::with('createdBy')
+            ->where('created_by', Auth::id())
+            ->orderBy('id', 'desc')
+            ->get();
 
-        return view('admin.applicant.my-applicant-list', compact('applicants'));
+        return view('agent.applicant.agent-applicant-list', compact('applicants'));
     }
-
 
     // function to show add new applicant page
-    public function addNewApplicant()
+    public function agentAddNewApplicant()
     {
-        return view('admin.applicant.add-new-applicant');
+        return view('agent.applicant.agent-add-new-applicant');
     }
 
-    // Function to save student
-    public function saveNewApplicant(Request $request)
+    // function to agent save new applicant
+    public function agentSaveNewApplicant(Request $request)
     {
         $request->validate([
             'name'        => 'required|string|max:50',
@@ -72,7 +71,7 @@ class ApplicantController extends Controller
 
         $applicantInfo                              = new Applicant();
         $applicantInfo->user_id                     = $user->id;
-        $applicantInfo->sent_by                     = 'Glodex';
+        $applicantInfo->sent_by                     = Auth::user()->organization_name ?? 'N/A';
         $applicantInfo->name                        = $request->name;
         $applicantInfo->applicant_code              =  'GLD' . rand(1000000, 9999999);
         $applicantInfo->phone                       = $request->phone;
@@ -146,17 +145,17 @@ class ApplicantController extends Controller
         }
     }
 
-    // function to show edit applicant page
-    public function editApplicant($id)
+    // function to edit agent applicant
+    public function agentEditApplicant($id)
     {
         $applicant = Applicant::findOrFail($id);
         $englishTests = json_decode($applicant->english_proficiency, true) ?? [];
         $academicQualifications = json_decode($applicant->academic_qualifications, true) ?? []; // ← Add this line
-        return view('admin.applicant.edit-applicant', compact('applicant', 'englishTests', 'academicQualifications'));
+        return view('agent.applicant.edit-agent-applicant', compact('applicant', 'englishTests', 'academicQualifications'));
     }
 
-    // Function to update applicant
-     public function updateApplicant(Request $request, $id)
+     // Function to update applicant
+    public function agentUpdateApplicant(Request $request, $id)
     {
         $request->validate([
             'name'        => 'required|string|max:50',
@@ -253,24 +252,4 @@ class ApplicantController extends Controller
             return redirect()->back();
         }
     }
-
-
-    // Function to delete applicant
-    public function deleteApplicant($id)
-    {
-       DB::beginTransaction();
-        try {
-            $applicant = Applicant::findOrFail($id);
-            Application::where('applicant_id', $applicant->id)->delete();
-            $applicant->delete();
-            DB::commit();
-            Alert::success('Success', 'Applicant  deleted successfully');
-            return redirect()->back();
-        } catch (\Exception $e) {
-            DB::rollback();
-            Alert::error('Error', 'Failed to delete applicant. Please try again.');
-            return redirect()->back();
-        }
-    }  
-   
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Admin\UserActiveController;
+use App\Http\Controllers\Agent\AgentApplicantController;
 use App\Http\Controllers\Agent\AgentApplicationController;
 use App\Http\Controllers\Agent\AgentCompanyController;
 use App\Http\Controllers\Agent\AgentCompanyJobController;
@@ -183,6 +184,15 @@ Route::prefix('agent')->middleware(['agent'])->group(function () {
     });   
 
     // Route for agent students
+    Route::controller(AgentApplicantController::class)->group(function () {
+        Route::get('/agent-applicant-list', 'agentApplicantList')->name('agent_applicant_list');
+        Route::get('/agent-add-new-applicant', 'agentAddNewApplicant')->name('agent_add_new_applicant');
+        Route::post('/agent-save-new-applicant', 'agentSaveNewApplicant')->name('agent_save_new_applicant');
+        Route::get('/agent-edit-applicant/{id}', 'agentEditApplicant')->name('agent_edit_applicant');
+        Route::post('/agent-update-applicant/{id}', 'agentUpdateApplicant')->name('agent_update_applicant');
+    });
+
+
     Route::controller(AgentStudentController::class)->group(function () {
         Route::get('/agent-student-list', 'agentStudentList')->name('agent_student_list');
         Route::get('/agent-add-new-student', 'agentAddNewStudent')->name('agent_add_new_student');
