@@ -158,7 +158,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="col-md-6 text-center">
-                                                        <a href="{{ route('add_application_new_applicant', ['job_id' => $job->id]) }}" class="btn btn-success w-100 d-flex align-items-center justify-content-center"
+                                                        <a href="{{ route('agent_application_new_applicant', ['job_id' => $job->id]) }}" class="btn btn-success w-100 d-flex align-items-center justify-content-center"
                                                             style="height: 60px; font-size: 18px;">
                                                             <i class="ti ti-pencil me-1"></i> New Applicant
                                                         </a>
@@ -296,7 +296,7 @@
                 return;
             }
  
-            const url = "{{ route('add_application_eix_applicant', ['job_id' => '__job_id__', 'applicant_id' => '__applicant_id__']) }}"
+            const url = "{{ route('agent_application_existing_applicant', ['job_id' => '__job_id__', 'applicant_id' => '__applicant_id__']) }}"
             .replace('__job_id__', courseId) 
             .replace('__applicant_id__', selectedStudentId);
 

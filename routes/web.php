@@ -192,23 +192,14 @@ Route::prefix('agent')->middleware(['agent'])->group(function () {
         Route::post('/agent-update-applicant/{id}', 'agentUpdateApplicant')->name('agent_update_applicant');
     });
 
-
-    Route::controller(AgentStudentController::class)->group(function () {
-        Route::get('/agent-student-list', 'agentStudentList')->name('agent_student_list');
-        Route::get('/agent-add-new-student', 'agentAddNewStudent')->name('agent_add_new_student');
-        Route::post('/agent-save-new-student', 'agentSaveNewStudent')->name('agent_save_new_student');
-        Route::get('/agent-edit-student/{id}', 'agentEditStudent')->name('agent_edit_student');
-        Route::post('/agent-update-student/{id}', 'agentUpdateStudent')->name('agent_update_student');
-    });
-
     // Route for agent applications
     Route::controller(AgentApplicationController::class)->group(function () {
         Route::get('/agent-application-list', 'agentApplicationList')->name('agent_application_list');
-        Route::get('/agent-application-new-student/{course_id}', 'agentApplicationNewStudent')->name('agent_application_new_student');
-        Route::post('/save-agent-application-new-student', 'saveAgentApplicationNewStudent')->name('save_agent_application_new_student');
-        Route::get('/agent-application-existing-student/{course_id}/{student_id}', 'agentApplicationEixStudent')->name('agent_application_existing_student');
-        Route::post('/save-agent-application-exit-student', 'saveAgentApplicationEixStudent')->name('save_agent_application_eix_student');
-        Route::get('/agent-edit-application/{id}/{course_id}/{student_id}', 'agentEditApplication')->name('agent_edit_application');
+        Route::get('/agent-application-new-applicant/{job_id}', 'agentApplicationNewApplicant')->name('agent_application_new_applicant');
+        Route::post('/save-agent-application-new-applicant', 'saveAgentApplicationNewApplicant')->name('save_agent_application_new_applicant');
+        Route::get('/agent-application-existing-applicant/{job_id}/{applicant_id}', 'agentApplicationEixApplicant')->name('agent_application_existing_applicant');
+        Route::post('/save-agent-application-exit-applicant', 'saveAgentApplicationEixApplicant')->name('save_agent_application_eix_applicant');
+        Route::get('/agent-edit-application/{id}/{job_id}/{applicant_id}', 'agentEditApplication')->name('agent_edit_application');
         Route::post('/agent-update-application/{id}', 'agentUpdateApplication')->name('agent_update_application');
     });
 

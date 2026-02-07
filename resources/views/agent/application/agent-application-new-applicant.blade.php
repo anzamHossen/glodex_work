@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '| Add New Application')
+@section('title', '| Add New Appllication')
 @section('content')
     <!-- Begin page -->
     <div class="wrapper">
@@ -9,9 +9,9 @@
                     <div class="card">
                         <div
                             class="card-header border-bottom border-dashed d-flex align-items-center justify-content-between">
-                            <h4 class="header-title mb-0">Add Application For New Student</h4>
+                            <h4 class="header-title mb-0">Add Application For New Applicant</h4>
                             <div class="d-flex">
-                                <a href="{{ route('agent_application_list') }}" class="btn btn-sm btn-secondary me-2">
+                                <a href="#" class="btn btn-sm btn-secondary me-2">
                                     <i class="ti ti-arrow-back-up"
                                         style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Go Back
@@ -19,11 +19,11 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form  action="{{ route('save_agent_application_new_student') }}" method="post" enctype="multipart/form-data">
+                            <form  action="{{ route('save_agent_application_new_applicant') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <h6 class="badge bg-primary">General Information</h6>
                                 <div class="row">
-                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                    <input type="hidden" name="job_id" value="{{ $job->id }}">
                                     <div class="col-md-4 mb-3">
                                         <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Enter student name" required>
@@ -176,18 +176,20 @@
                                 </div>
                                 <h6 class="badge bg-primary">Documents Upload</h6>
                                 <div class="row">
-                                    <h5>( Add your passport copy, All Academic Certificate & Trasnscript Record, English Proficiency and Others, name your file like firstname_lastname_filename)</h5>
                                     <div class="col-md-4">
                                         <div>
-                                            <label for="intakeYear" class="form-label">Intake Year<span
-                                                class="text-danger">*</span>:</label>
-                                            <input type="month" name="intake_year" class="form-control" placeholder="YYYY"
-                                                id="intakeYear" value="{{ old('intake_year') }}" required/>
+                                            <label for="intakeYear" class="form-label">
+                                                Going Year <span class="text-danger">*</span>:
+                                            </label>
+                                            <input type="month" name="going_year" class="form-control" placeholder="YYYY" id="goingYear" value="{{ old('going_year') }}" required />
                                         </div>
-                                        @error('intake_year')
+                                        @error('going_year')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <!-- Countdown Inputs -->
+
+                                    <h5 class="mt-4">( Add your passport copy, if you have Academic Certificate & Trasnscript Record, English Proficiency and Others, name your file like firstname_lastname_filename)</h5>
                                     <div id="file_inputs">
                                             <div class="row" id="f1">
                                                 <div class="col-md-4 mt-3">
@@ -198,7 +200,7 @@
                                                 </div>
                                                 <div class="col-md-8 mt-3">
                                                     <div class="input-group mb-3">
-                                                    <input type="file" name="studentfiles[]" class="form-control" required/>
+                                                    <input type="file" name="applicantfiles[]" class="form-control" required/>
                                                     </div>
                                                 </div>
                                                 @error('passport_copy')
@@ -326,7 +328,7 @@
           </div>
           <div class="col-md-8">
             <div class="input-group mb-3">
-              <input type="file" name="studentfiles[]" class="form-control" required>
+              <input type="file" name="applicantfiles[]" class="form-control" required>
             </div>       
           </div>
         </div>

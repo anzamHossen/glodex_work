@@ -73,7 +73,7 @@ class ApplicationController extends Controller
     public function addApplicationNewApplicant($job_id)
     {
         $job                = CompanyJob::find($job_id);
-        $applicationStatus = ApplicationStatus::all();
+        $applicationStatus  = ApplicationStatus::all();
         return view('admin.application.add-application-new-applicant', compact('job','applicationStatus'));
     }
 

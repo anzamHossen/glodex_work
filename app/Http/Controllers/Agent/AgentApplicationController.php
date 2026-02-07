@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Applicant;
+use App\Models\Admin\ApplicantFile;
 use App\Models\Admin\Application;
+use App\Models\Admin\CompanyJob;
 use App\Models\Admin\Course;
 use App\Models\Admin\StudentFile;
 use App\Models\Admin\StudentInfo;
@@ -17,25 +20,33 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AgentApplicationController extends Controller
 {
-    // function to show agent application list
+
+    // Function to show application list 
     public function agentApplicationList()
     {
-        $applications = Application::with(['student', 'course.country', 'course.university', 'applicationStatus'])
-                        ->where('created_by', Auth::id())
-                        ->orderBy('id', 'desc')
-                        ->get();
+       $applications = Application::with([
+            'applicant',
+            'job.country',
+            'job.company',
+            'applicationStatus'
+        ])
+        ->where('created_by', Auth::id())
+        ->orderBy('id', 'desc')
+        ->get();
+
         return view('agent.application.agent-application-list', compact('applications'));
     }
 
-    // function to show new student application form
-    public function agentApplicationNewStudent($course_id)
+
+    // function to add application for new applicant
+    public function agentApplicationNewApplicant($job_id)
     {
-        $course   = Course::find($course_id);
-        return view('agent.application.agent-application-new-student', compact('course'));
+        $job = CompanyJob::find($job_id);
+        return view('agent.application.agent-application-new-applicant', compact('job'));
     }
 
     // function to save agent new student application
-    public function saveAgentApplicationNewStudent(Request $request)
+    public function saveAgentApplicationNewApplicant(Request $request)
     {
         $request->validate([
             'name'        => 'required|string|max:50',
@@ -45,148 +56,168 @@ class AgentApplicationController extends Controller
             'passport_no' => 'required|string',
             'permanent_address' => 'required|string',
             'gender'      => 'required',
-            'intake_year' => 'required',
+            'going_year'  => 'required',
+            'job_id'  => 'required|exists:company_jobs,id',
         ]);
 
-        $existingStudent = StudentInfo::where('phone', $request->phone)
+        $existingApplicant = Applicant::where('phone', $request->phone)
             ->orWhere('email', $request->email)
             ->orWhere('passport_no', $request->passport_no)
             ->exists();
 
-        if ($existingStudent) {
-            Alert::error('Error', 'Student Already Exists');
+        if ($existingApplicant) {
+            Alert::error('Error', 'Applicant Already Exists');
             return redirect()->back()->withInput();
         }
 
         DB::beginTransaction();
 
         try {
+
+            $job = CompanyJob::lockForUpdate()->find($request->job_id);
+
+            if (!$job || $job->avilable_positions <= 0) {
+                throw new \Exception('No available positions left for this job.');
+            }
+
+            // Decrease available position
+            $job->decrement('avilable_positions');
+
             // Create User
             $user = User::create([
                 'name'       => $request->name,
                 'phone'      => $request->phone,
                 'email'      => $request->email,
-                'password'   => Hash::make('student1234'),
+                'password'   => Hash::make('applicant1234'),
                 'created_by' => Auth::id(),
-                'user_type'  => 3, // Student
+                'user_type'  => 3,
             ]);
 
-            // Create Student Info
-            $studentInfo = new StudentInfo();
-            $studentInfo->user_id = $user->id;
-            $studentInfo->sent_by = Auth::user()->organization_name ?? 'N/A';
-            $studentInfo->name = $request->name;
-            $studentInfo->student_code = 'GLD' . rand(1000000, 9999999);
-            $studentInfo->phone = $request->phone;
-            $studentInfo->email = $request->email;
-            $studentInfo->permanent_address = $request->permanent_address;
-            $studentInfo->gender = $request->gender;
-            $studentInfo->fathers_name = $request->fathers_name;
-            $studentInfo->mothers_name = $request->mothers_name;
-            $studentInfo->dob = $request->dob;
-            $studentInfo->passport_no = $request->passport_no;
-            $studentInfo->moi = $request->moi;
-            $studentInfo->notes = $request->notes;
-            $studentInfo->created_by = Auth::id();
+            // Create Applicant
+            $applicantInfo                    = new Applicant();
+            $applicantInfo->user_id           = $user->id;
+            $applicantInfo->sent_by           = Auth::user()->organization_name ?? 'N/A';
+            $applicantInfo->name              = $request->name;
+            $applicantInfo->applicant_code    = 'GLD' . rand(1000000, 9999999);
+            $applicantInfo->phone             = $request->phone;
+            $applicantInfo->email             = $request->email;
+            $applicantInfo->permanent_address = $request->permanent_address;
+            $applicantInfo->gender            = $request->gender;
+            $applicantInfo->fathers_name      = $request->fathers_name;
+            $applicantInfo->mothers_name      = $request->mothers_name;
+            $applicantInfo->dob               = $request->dob;
+            $applicantInfo->passport_no       = $request->passport_no;
+            $applicantInfo->moi               = $request->moi;
+            $applicantInfo->notes             = $request->notes;
+            $applicantInfo->created_by        = Auth::id();
 
-            // English Proficiency
+            // English Tests
             if ($request->has('english_tests')) {
-                $englishTests = [];
+                $tests = [];
                 foreach ($request->english_tests as $test) {
-                    $englishTests[] = [
-                        'type'      => $test['type'] ?? null,
+                    $tests[] = [
+                        'type' => $test['type'] ?? null,
                         'listening' => $test['listening'] ?? null,
-                        'reading'   => $test['reading'] ?? null,
-                        'writing'   => $test['writing'] ?? null,
-                        'speaking'  => $test['speaking'] ?? null,
-                        'overall'   => $test['overall'] ?? null,
+                        'reading' => $test['reading'] ?? null,
+                        'writing' => $test['writing'] ?? null,
+                        'speaking' => $test['speaking'] ?? null,
+                        'overall' => $test['overall'] ?? null,
                     ];
                 }
-                $studentInfo->english_proficiency = json_encode($englishTests);
+                $applicantInfo->english_proficiency = json_encode($tests);
             }
 
-            // Academic Qualifications
+            // Academic
             if ($request->has('academic_qualifications')) {
-                $academicQualifications = [];
-                foreach ($request->academic_qualifications as $qualification) {
-                    $academicQualifications[] = [
-                        'group_name'     => $qualification['group_name'] ?? null,
-                        'institute_name' => $qualification['institute_name'] ?? null,
-                        'gpa'            => $qualification['gpa'] ?? null,
-                        'passing_year'   => $qualification['passing_year'] ?? null,
+                $academic = [];
+                foreach ($request->academic_qualifications as $q) {
+                    $academic[] = [
+                        'group_name' => $q['group_name'] ?? null,
+                        'institute_name' => $q['institute_name'] ?? null,
+                        'gpa' => $q['gpa'] ?? null,
+                        'passing_year' => $q['passing_year'] ?? null,
                     ];
                 }
-                $studentInfo->academic_qualifications = json_encode($academicQualifications);
+                $applicantInfo->academic_qualifications = json_encode($academic);
             }
 
-            $studentInfo->save();
+            $applicantInfo->save();
 
-            // Save Student Files
-            if ($request->hasFile('studentfiles')) {
-                $studentFiles = $request->file('studentfiles');
-                $filenames = $request->input('filename');
-                foreach ($studentFiles as $key => $single) {
-                    $originalFileName = $single->getClientOriginalName();
-                    $newFileName = Carbon::now()->timestamp . '_' . $studentInfo->name . '_' . $originalFileName;
-                    $filePath = $single->storeAs($filenames[$key], $newFileName, 'public');
+            // Files
+            if ($request->hasFile('applicantfiles')) {
+                foreach ($request->file('applicantfiles') as $key => $file) {
+                    $newName = time().'_'.$file->getClientOriginalName();
+                    $path = $file->storeAs('applicants', $newName, 'public');
 
-                    StudentFile::create([
-                        'student_id' => $studentInfo->id,
-                        'filename'   => $filenames[$key],
-                        'filepath'   => $filePath,
+                    ApplicantFile::create([
+                        'applicant_id' => $applicantInfo->id,
+                        'filename' => 'applicants',
+                        'filepath' => $path,
                     ]);
                 }
             }
 
-            // Create Application Record
+            // Save Application
             Application::create([
-                'user_id'     => Auth::id(), // current admin/agent
-                'course_id'   => $request->course_id,
-                'student_id'  => $studentInfo->id,
-                'sent_by'     => Auth::user()->organization_name ?? 'N/A',
+                'user_id' => Auth::id(),
+                'job_id' => $job->id,
+                'applicant_id' => $applicantInfo->id,
+                'sent_by' => Auth::user()->organization_name ?? 'N/A',
                 'application_code' => rand(100000, 999999),
-                'created_by'  => Auth::id(),
-                'intake_year' => $request->intake_year,
+                'created_by' => Auth::id(),
+                'going_year' => $request->going_year,
             ]);
 
             DB::commit();
-
-            Alert::success('Success', 'Application added successfully');
+            Alert::success('Success', 'Application added & job position updated!');
             return redirect()->back();
 
         } catch (\Exception $e) {
             DB::rollBack();
-            // dd($e);
-            Alert::error('Error', 'Failed to save application, Try Again');
-            return redirect()->back();
+            Alert::error('Error', $e->getMessage());
+            return redirect()->back()->withInput();
         }
     }
 
-    // function to add application for existing student
-    public function agentApplicationEixStudent($course_id, $student_id)
+    // function to add application for existing applicant
+    public function agentApplicationEixApplicant($job_id, $applicant_id)
     {
-        $applicationExists = Application::where('course_id', $course_id)
-        ->where('student_id', $student_id)
-        ->exists();
+        // Find job & applicant
+        $job = CompanyJob::find($job_id);
+        $applicant = Applicant::find($applicant_id);
+
+        // If either is missing, redirect back safely
+        if (!$job || !$applicant) {
+            Alert::error('Error', 'Job or Applicant not found');
+            return redirect()->back();
+        }
+
+        // Check if application already exists
+        $applicationExists = Application::where('job_id', $job_id)
+            ->where('applicant_id', $applicant_id)
+            ->exists();
 
         if ($applicationExists) {
-            Alert::error('Error', 'In this course the student application in progress');
+            Alert::error('Error', 'This applicant already has an application for this job');
             return redirect()->back();
         }
 
-        $course   = Course::find($course_id);
-        $student  = StudentInfo::find($student_id);
-        $englishTests = json_decode($student->english_proficiency, true) ?? [];
-        $academicQualifications = json_decode($student->academic_qualifications, true) ?? [];
-        return view('agent.application.agent-application-existing-student',compact('course','student','englishTests','academicQualifications'));
+        $englishTests           = json_decode($applicant->english_proficiency, true) ?? [];
+        $academicQualifications = json_decode($applicant->academic_qualifications, true) ?? [];
+
+        return view('agent.application.agent-application-existing-applicant', compact(
+            'job',
+            'applicant',
+            'englishTests',
+            'academicQualifications'
+        ));
     }
 
-    // function to save agent existing student application
-    public function saveAgentApplicationEixStudent(Request $request)
+    // function to save agent existing applicant application
+    public function saveAgentApplicationEixApplicant(Request $request)
     {
         $request->validate([
-            'student_id'        => 'required|exists:student_infos,id',
-            'course_id'         => 'required|exists:courses,id',
+            'applicant_id'      => 'required|exists:applicants,id',
             'name'              => 'required|string|max:50',
             'phone'             => 'required',
             'email'             => 'required|email',
@@ -194,22 +225,32 @@ class AgentApplicationController extends Controller
             'passport_no'       => 'required|string',
             'permanent_address' => 'required|string',
             'gender'            => 'required',
-            'intake_year'       => 'required',
+            'going_year'        => 'required',
+            'job_id'  => 'required|exists:company_jobs,id',
         ]);
 
         DB::beginTransaction();
 
         try {
-            // Find existing student
-            $studentInfo = StudentInfo::find($request->student_id);
+            // Find existing applicant
+            $applicantInfo = Applicant::find($request->applicant_id);
 
-            if (!$studentInfo) {
-                Alert::error('Error', 'Student not found.');
+            if (!$applicantInfo) {
+                Alert::error('Error', 'Applicant not found.');
                 return redirect()->back();
             }
 
-            //Update Student Info
-            $studentInfo->update([
+            $job = CompanyJob::lockForUpdate()->find($request->job_id);
+
+            if (!$job || $job->avilable_positions <= 0) {
+                throw new \Exception('No available positions left for this job.');
+            }
+
+            // Decrease available position
+            $job->decrement('avilable_positions');
+
+            //Update Applicant Info
+            $applicantInfo->update([
                 'name'              => $request->name,
                 'phone'             => $request->phone,
                 'email'             => $request->email,
@@ -236,8 +277,8 @@ class AgentApplicationController extends Controller
                         'overall'   => $test['overall'] ?? null,
                     ];
                 }
-                $studentInfo->english_proficiency = json_encode($englishTests);
-                $studentInfo->save();
+                $applicantInfo->english_proficiency = json_encode($englishTests);
+                $applicantInfo->save();
             }
 
             //Update Academic Qualifications
@@ -251,42 +292,42 @@ class AgentApplicationController extends Controller
                         'passing_year'   => $qualification['passing_year'] ?? null,
                     ];
                 }
-                $studentInfo->academic_qualifications = json_encode($academicQualifications);
-                $studentInfo->save();
+                $applicantInfo->academic_qualifications = json_encode($academicQualifications);
+                $applicantInfo->save();
             }
 
-            //Upload Student Files (if any new files)
-            if ($request->hasFile('studentfiles')) {
-                $studentFiles = $request->file('studentfiles');
+            //Upload Applicant Files (if any new files)
+            if ($request->hasFile('applicantfiles')) {
+                $applicantFiles = $request->file('applicantfiles');
                 $filenames = $request->input('filename');
 
-                foreach ($studentFiles as $key => $single) {
+                foreach ($applicantFiles as $key => $single) {
                     $originalFileName = $single->getClientOriginalName();
-                    $newFileName = Carbon::now()->timestamp . '_' . $studentInfo->name . '_' . $originalFileName;
+                    $newFileName = Carbon::now()->timestamp . '_' . $applicantInfo->name . '_' . $originalFileName;
                     $filePath = $single->storeAs($filenames[$key], $newFileName, 'public');
 
-                    StudentFile::create([
-                        'student_id' => $studentInfo->id,
+                    ApplicantFile::create([
+                        'applicant_id' => $applicantInfo->id,
                         'filename'   => $filenames[$key],
                         'filepath'   => $filePath,
                     ]);
                 }
             }
 
-            //Create Application for this student
+            //Create Application for this applicant
             Application::create([
-                'user_id'     => Auth::id(),
-                'course_id'   => $request->course_id,
-                'student_id'  => $studentInfo->id,
-                'sent_by'     => Auth::user()->organization_name ?? 'N/A',
+                'user_id' => Auth::id(),
+                'job_id' => $job->id,
+                'applicant_id' => $applicantInfo->id,
+                'sent_by' => Auth::user()->organization_name ?? 'N/A',
                 'application_code' => rand(100000, 999999),
-                'created_by'  => Auth::id(),
-                'intake_year' => $request->intake_year,
+                'created_by' => Auth::id(),
+                'going_year' => $request->going_year,
             ]);
 
             DB::commit();
 
-            Alert::success('Success', 'Application added successfully for existing student.');
+            Alert::success('Success', 'Application added successfully for existing applicant.');
             return redirect()->route('agent_application_list');
 
         } catch (\Exception $e) {
@@ -298,39 +339,45 @@ class AgentApplicationController extends Controller
     }
 
     // function to edit application
-    public function agentEditApplication($id, $course_id, $student_id)
+    public function agentEditApplication($id, $job_id, $applicant_id)
     {
         $application = Application::find($id);
 
         if (!$application) {
-        Alert::error('Error', 'Application not found.');
-        return redirect()->back();
+            Alert::error('Error', 'Application not found.');
+            return redirect()->back();
         }
 
-        $course = Course::find($course_id);
-
-        if (!$course) {
-        Alert::error('Error', 'Course not found..');
-        return redirect()->back();
+        $job = CompanyJob::find($job_id);
+        if (!$job) {
+            Alert::error('Error', 'Job not found.');
+            return redirect()->back();
         }
 
-        if (!$student_id || !StudentInfo::find($student_id)) {
-        Alert::error('Error', 'Student record has been deleted or is invalid.');
-        return redirect()->back();
+        if (!$applicant_id || !Applicant::find($applicant_id)) {
+            Alert::error('Error', 'Applicant record has been deleted or is invalid.');
+            return redirect()->back();
         }
 
-        $student = StudentInfo::find($student_id);
-        $englishTests = json_decode($student->english_proficiency, true) ?? [];
-        $academicQualifications = json_decode($student->academic_qualifications, true) ?? [];
-        return view('agent.application.agent-edit-application', compact('application', 'course', 'student', 'englishTests', 'academicQualifications'));
+        $applicant = Applicant::find($applicant_id);
+        $englishTests = json_decode($applicant->english_proficiency, true) ?? [];
+        $academicQualifications = json_decode($applicant->academic_qualifications, true) ?? [];
+
+        return view('agent.application.agent-edit-application', compact(
+            'application',
+            'job',
+            'applicant',
+            'englishTests',
+            'academicQualifications'
+        ));
     }
 
     // function to agent update application
     public function agentUpdateApplication(Request $request, $id)
     {
         $request->validate([
-            'student_id'        => 'required|exists:student_infos,id',
-            'course_id'         => 'required|exists:courses,id',
+            'applicant_id'      => 'required|exists:applicants,id',
+            'job_id'            => 'required|exists:company_jobs,id',
             'name'              => 'required|string|max:50',
             'phone'             => 'required',
             'email'             => 'required|email',
@@ -338,22 +385,22 @@ class AgentApplicationController extends Controller
             'passport_no'       => 'required|string',
             'permanent_address' => 'required|string',
             'gender'            => 'required',
-            'intake_year'       => 'required',
+            'going_year'        => 'required',
         ]);
 
         DB::beginTransaction();
 
         try {
-            // Find existing student
-            $studentInfo = StudentInfo::find($request->student_id);
+            // Find existing applicant
+            $applicantInfo = Applicant::find($request->applicant_id);
 
-            if (!$studentInfo) {
-                Alert::error('Error', 'Student not found.');
+            if (!$applicantInfo) {
+                Alert::error('Error', 'Applicant not found.');
                 return redirect()->back();
             }
 
             //Update Student Info
-            $studentInfo->update([
+            $applicantInfo->update([
                 'name'              => $request->name,
                 'phone'             => $request->phone,
                 'email'             => $request->email,
@@ -380,8 +427,8 @@ class AgentApplicationController extends Controller
                         'overall'   => $test['overall'] ?? null,
                     ];
                 }
-                $studentInfo->english_proficiency = json_encode($englishTests);
-                $studentInfo->save();
+                $applicantInfo->english_proficiency = json_encode($englishTests);
+                $applicantInfo->save();
             }
 
             //Update Academic Qualifications
@@ -395,41 +442,42 @@ class AgentApplicationController extends Controller
                         'passing_year'   => $qualification['passing_year'] ?? null,
                     ];
                 }
-                $studentInfo->academic_qualifications = json_encode($academicQualifications);
-                $studentInfo->save();
+                $applicantInfo->academic_qualifications = json_encode($academicQualifications);
+                $applicantInfo->save();
             }
 
-            //Upload Student Files (if any new files)
-            if ($request->hasFile('studentfiles')) {
-                $studentFiles = $request->file('studentfiles');
+            //Upload Applicant Files (if any new files)
+            if ($request->hasFile('applicantfiles')) {
+                $applicantFiles = $request->file('applicantfiles');
                 $filenames = $request->input('filename');
 
-                foreach ($studentFiles as $key => $single) {
+                foreach ($applicantFiles as $key => $single) {
                     $originalFileName = $single->getClientOriginalName();
-                    $newFileName = Carbon::now()->timestamp . '_' . $studentInfo->name . '_' . $originalFileName;
+                    $newFileName = Carbon::now()->timestamp . '_' . $applicantInfo->name . '_' . $originalFileName;
                     $filePath = $single->storeAs($filenames[$key], $newFileName, 'public');
 
-                    StudentFile::create([
-                        'student_id' => $studentInfo->id,
-                        'filename'   => $filenames[$key],
-                        'filepath'   => $filePath,
+                    ApplicantFile::create([
+                        'applicant_id' => $applicantInfo->id,
+                        'filename'     => $filenames[$key],
+                        'filepath'     => $filePath,
                     ]);
                 }
             }
 
-            $updateApplication = Application::findOrFail($id);
-            $updateApplication->student_id  = $studentInfo->id;
-            $updateApplication->course_id   = $request->input('course_id');
-            $updateApplication->intake_year = $request->input('intake_year');
+
+            $updateApplication               = Application::findOrFail($id);
+            $updateApplication->applicant_id = $applicantInfo->id;
+            $updateApplication->job_id       = $request->input('job_id');
+            $updateApplication->going_year   = $request->input('going_year');
 
             $updateApplication->save();
             DB::commit();
-            Alert::success('Success', 'Application update successfully for existing student.');
+            Alert::success('Success', 'Application update successfully applicant.');
             return redirect()->back();
 
         } catch (\Exception $e) {
             DB::rollBack();
-            // dd($e->getMessage());
+            // dd($e);
             Alert::error('Error', 'Failed to update application, Try Again.');
             return redirect()->back()->withInput();
         }
