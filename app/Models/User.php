@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Admin\Applicant;
 use App\Models\Admin\Company;
 use App\Models\Admin\StudentInfo;
 use App\Models\Admin\UserInfo;
@@ -74,8 +75,8 @@ class User extends Authenticatable
     }
 
 
-    public function studentInfo()
+    public function applicantInfo()
     {
-        return $this->hasOne(StudentInfo::class, 'user_id');
+        return $this->hasOne(Applicant::class, 'user_id');
     }
 }

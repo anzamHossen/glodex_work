@@ -13,12 +13,12 @@
                        <div class="card-header border-bottom border-dashed d-flex align-items-center justify-content-between">
                             <h4 class="header-title mb-0">Company List</h4>
                             <div class="d-flex items-center gap-2">
-                                {{-- @can('Create University') --}}
+                                @can('Create Company')
                                 <a href="{{ route('add_new_company') }}" class="btn btn-sm glodex-blue-btn">
                                     <i class="ti ti-plus" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Add New
                                 </a>
-                                {{-- @endcan --}}
+                                @endcan
                                 <a href="{{ route('company_list') }}" class="btn btn-sm glodex-blue-btn" id="addNewCountryBtn">
                                     <i class="ti ti-rotate me-2"></i>
                                     Refresh
@@ -92,7 +92,7 @@
                                                     <i class="ti ti-dots-vertical"></i>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    {{-- @can('View Course') --}}
+                                                    @can('View Job')
                                                     <li>
                                                         <a class="dropdown-item" href="{{ route('filter_job', [
                                                             'job_name' => '',
@@ -103,14 +103,14 @@
                                                             ]) }}">Jobs
                                                         </a>
                                                     </li>
-                                                    {{-- @endcan --}}
-                                                    {{-- @can('View University') --}}
+                                                    @endcan
+                                                    @can('View Company')
                                                     <li><a class="dropdown-item" href="{{ route('company_details', $company->id) }}">Company Details</a></li>
-                                                    {{-- @endcan --}}
-                                                    {{-- @can('Edit University') --}}
+                                                    @endcan
+                                                    @can('Edit Company')
                                                     <li><a class="dropdown-item" href="{{ route('edit_company', $company->id) }}">Edit</a></li>
-                                                    {{-- @endcan  --}}
-                                                    {{-- @can('Delete University') --}}
+                                                    @endcan 
+                                                    @can('Delete Company')
                                                     <li>
                                                         <a class="dropdown-item"  href="#" onclick="confirmDelete({{ $company->id }})">Delete</a>
                                                         <form id="delete-company-form-{{ $company->id }}" method="POST" style="display: none;">
@@ -118,7 +118,7 @@
                                                             @method('DELETE')
                                                         </form>
                                                     </li>
-                                                    {{-- @endcan --}}
+                                                    @endcan
                                                 </ul>
                                             </div>
                                             <div class="university-card-header d-flex align-items-center gap-2 pb-3">
@@ -156,12 +156,12 @@
                                                     <p class="contact-text mb-0">{{ $company->address ?? 'Not added'}}</p>
                                                 </div>
                                                 <div class="d-flex justify-content-center">
-                                                    {{-- @can('View Course') --}}
+                                                    @can('View Job')
                                                     <a href="{{ url('/admin/filter-course') }}?university_name={{ urlencode($company->university_name) }}" class="btn btn-sm py-2 btn-gradient mt-3 d-inline-flex align-items-center">
                                                         <i class="ti ti-graduation-cap-filled me-2"></i>
                                                         View Jobs
                                                     </a>
-                                                    {{-- @endcan --}}
+                                                    @endcan
                                                 </div>
                                             </div>
                                         </div>

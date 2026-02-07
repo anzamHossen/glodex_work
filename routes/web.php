@@ -120,40 +120,6 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::delete('/delete-job/{id}', 'deleteJob')->name('delete_job');
     });
 
-    // Route for university
-    Route::controller(UniversityController::class)->group(function () {
-        Route::get('/university-list', 'universityList')->name('university_list');
-        Route::get('/search-university-name', 'searchUniversityName')->name('search_university_name');
-        Route::get('/add-new-university', 'addUniversity')->name('add_new_university');
-        Route::post('/save-new-university', 'saveUniversity')->name('save_new_university');
-        Route::get('/edit-university/{id}', 'editUniversity')->name('edit_university');
-        Route::post('/update-university/{id}', 'updateUniversity')->name('update_university');
-        Route::get('/university-details/{id}', 'universityDetails')->name('university_details');
-        Route::delete('/delete-university/{id}',  'deleteUniversity')->name('delete_university');
-    });
-
-    // Route for course
-    Route::controller(CourseController::class)->group(function () {
-        Route::get('/course-list', 'courseList')->name('course_list');
-        Route::get('/course-details/{id}', 'courseDetails')->name('course_details');
-        Route::get('/search-course', 'searchCourse')->name('search_course');
-        Route::get('/filter-course', 'filterCourse')->name('filter_course');
-        Route::get('/add-new-course', 'addCourse')->name('add_new_course');
-        Route::post('/save-new-course', 'saveCourse')->name('save_new_course');
-        Route::get('/edit-course/{id}', 'editCourse')->name('edit_course');
-        Route::post('/update-course/{id}', 'updateCourse')->name('update_course');    
-    });
-
-    // Route for student info
-    Route::controller(StudentInfoController::class)->group(function () {
-        Route::get('/my-student-list', 'myStudentList')->name('my_student_list');
-        Route::get('/student-list-agent', 'studentListAgent')->name('student_list_agent');
-        Route::get('/add-new-student', 'addNewStudent')->name('add_new_student');
-        Route::post('/save-new-student', 'saveNewStudent')->name('save_new_student');
-        Route::get('/edit-student/{id}', 'editStudent')->name('edit_student');
-        Route::post('/update-student/{id}', 'updateStudent')->name('update_student');        
-    });
-
     // Route for applicant
     Route::controller(ApplicantController::class)->group(function () {
         Route::get('/my-applicant-list', 'myApplicantList')->name('my_applicant_list');    

@@ -82,12 +82,13 @@
                                                 <i class="ti ti-dots-vertical"></i>
                                             </button>
                                             <ul class="dropdown-menu">
+                                                @can('View Job')
                                                 <li><a class="dropdown-item" href="{{ route('job_details', $job->id) }}"><i class="ti ti-map-pin me-2"></i>Job Details</a></li>
-                                                {{-- @endcan --}}
-                                                {{-- @can('Edit Course') --}}
+                                                @endcan
+                                                @can('Edit Job')
                                                 <li><a class="dropdown-item" href="{{ route('edit_job', $job->id) }}"><i class="ti ti-edit me-2"></i> Edit</a></li>
-                                                {{-- @endcan --}}
-                                                {{-- @can('Delete Course') --}}
+                                                @endcan
+                                                @can('Delete Job')
                                                 <li>
                                                     <a class="dropdown-item" href="#"  onclick="confirmDelete({{ $job->id }})"><i class="ti ti-trash me-2"></i> Delete</a>
                                                     <form id="delete-course-form-{{ $job->id }}" method="POST" style="display: none;">
@@ -95,7 +96,7 @@
                                                         @method('DELETE')
                                                     </form>
                                                 </li>
-                                                {{-- @endcan --}}
+                                                @endcan
                                             </ul>
                                         </div>
 
@@ -150,11 +151,12 @@
                                                     <div class="info-value price">{{ $job->intial_fees ?? 'Not Added' }}</div>
                                                 </div>
                                             </div>
+                                            @can('Create Application')
                                             <div class="pt-2 d-flex justify-content-center">
                                                 <a href="#" class="btn btn-sm btn-gradient" target="_blank" data-bs-toggle="modal"
                                                 data-bs-target="#modalCenter{{ $job->id }}">Apply Now</a>
                                             </div>
-                                            {{-- @endcan --}}
+                                            @endcan
                                         </div>
                                     </div>
                                 </div>

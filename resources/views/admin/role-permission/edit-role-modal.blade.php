@@ -16,7 +16,7 @@
                         <input type="text" name="role_name" class="form-control" id="editRoleName" readonly>
                     </div>
 
-                    <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
+                   <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
                         <h5 class="fw-semibold mb-0">User Management</h5>
                         <div class="d-flex justify-content-start flex-wrap ">
 
@@ -44,25 +44,24 @@
 
                             <div class="form-check me-4">
                                 <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="View Roles">
+                                    value="View Role">
                                 <label for="viewCountry" class="form-check-label">View</label>
                             </div>
                             <div class="form-check me-4">
                                 <input id="createCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Create Roles">
+                                    value="Create Role">
                                 <label for="createCountry" class="form-check-label">Create</label>
                             </div>
                             <div class="form-check me-4">
-                                <input id="createCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Edit Roles">
-                                <label for="createCountry" class="form-check-label">Edit</label>
+                                <input id="editCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="Edit Role">
+                                <label for="editCountry" class="form-check-label">Edit</label>
                             </div>
                         </div>
                     </div>
                     <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
                         <h5 class="fw-semibold mb-0">Permission Management</h5>
                         <div class="d-flex justify-content-start flex-wrap ">
-
                             <div class="form-check me-4">
                                 <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
                                     value="View Permission">
@@ -76,23 +75,84 @@
                         </div>
                     </div>
                     <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
-                        <h5 class="fw-semibold mb-0">Partner Management</h5>
-                        <div class="d-flex justify-content-start flex-wrap">
+                        <h5 class="fw-semibold mb-0">Pending Partner</h5>
+                        <div class="d-flex justify-content-start flex-wrap ">
 
                             <div class="form-check me-4">
                                 <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="View Partner">
+                                    value="View Pending Agent">
+                                <label for="viewCountry" class="form-check-label">View</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
+                        <h5 class="fw-semibold mb-0">Active Partner</h5>
+                        <div class="d-flex justify-content-start flex-wrap ">
+
+                            <div class="form-check me-4">
+                                <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="View Active Agent">
                                 <label for="viewCountry" class="form-check-label">View</label>
                             </div>
                             <div class="form-check me-4">
-                                <input id="createCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Create Partner">
-                                <label for="createCountry" class="form-check-label">Create</label>
+                                <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="Create Agent">
+                                <label for="viewCountry" class="form-check-label">Create</label>
                             </div>
                             <div class="form-check me-4">
-                                <input id="createCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Delete Partner">
-                                <label for="createCountry" class="form-check-label">Delete</label>
+                                <input id="deleteCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="Delete Agent">
+                                <label for="viewCountry" class="form-check-label">Delete</label>
+                            </div>
+                            <div class="form-check me-4">
+                                <input id="deleteCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="Approval Agent">
+                                <label for="viewCountry" class="form-check-label">Pending</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
+                        <h5 class="fw-semibold mb-0">Pending Lawyer</h5>
+                        <div class="d-flex justify-content-start flex-wrap ">
+                            <div class="form-check me-4">
+                                <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="View Pending Lawyer">
+                                <label for="viewCountry" class="form-check-label">View</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
+                        <h5 class="fw-semibold mb-0">Active Lawyer</h5>
+                        <div class="d-flex justify-content-start flex-wrap ">
+                            <div class="form-check me-4">
+                                <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="View Active Lawyer">
+                                <label for="viewCountry" class="form-check-label">View</label>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start flex-wrap ">
+                            <div class="form-check me-4">
+                                <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="Delete Lawyer">
+                                <label for="viewCountry" class="form-check-label">Delete</label>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start flex-wrap ">
+                            <div class="form-check me-4">
+                                <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="Approval Lawyer">
+                                <label for="viewCountry" class="form-check-label">Pending</label>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
+                        <h5 class="fw-semibold mb-0">Pending Applicant</h5>
+                        <div class="d-flex justify-content-start flex-wrap ">
+
+                            <div class="form-check me-4">
+                                <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                                    value="View Pending Applicant">
+                                <label for="viewCountry" class="form-check-label">View</label>
                             </div>
                         </div>
                     </div>
@@ -126,70 +186,59 @@
                         </div>
                     </div>
                     <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
-                        <h5 class="fw-semibold mb-0">Pending Student</h5>
+                        <h5 class="fw-semibold mb-0">Company Management</h5>
                         <div class="d-flex justify-content-start flex-wrap ">
 
                             <div class="form-check me-4">
                                 <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="View Pending Student">
-                                <label for="viewCountry" class="form-check-label">View</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
-                        <h5 class="fw-semibold mb-0">University Management</h5>
-                        <div class="d-flex justify-content-start flex-wrap ">
-
-                            <div class="form-check me-4">
-                                <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="View University">
+                                    value="View Company">
                                 <label for="viewCountry" class="form-check-label">View</label>
                             </div>
 
                             <div class="form-check me-4">
                                 <input id="editCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Edit University">
+                                    value="Edit Company">
                                 <label for="editCountry" class="form-check-label">Edit</label>
                             </div>
 
                             <div class="form-check me-4">
                                 <input id="createCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Create University">
+                                    value="Create Company">
                                 <label for="createCountry" class="form-check-label">Create</label>
                             </div>
 
                             <div class="form-check me-4">
                                 <input id="deleteCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Delete University">
+                                    value="Delete Company">
                                 <label for="deleteCountry" class="form-check-label">Delete</label>
                             </div>
                         </div>
                     </div>
                     <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
-                        <h5 class="fw-semibold mb-0">Course Management</h5>
+                        <h5 class="fw-semibold mb-0">Job Management</h5>
                         <div class="d-flex justify-content-start flex-wrap ">
 
                             <div class="form-check me-4">
                                 <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="View Course">
+                                    value="View Job">
                                 <label for="viewCountry" class="form-check-label">View</label>
                             </div>
 
                             <div class="form-check me-4">
                                 <input id="editCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Edit Course">
+                                    value="Edit Job">
                                 <label for="editCountry" class="form-check-label">Edit</label>
                             </div>
 
                             <div class="form-check me-4">
                                 <input id="createCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Create Course">
+                                    value="Create Job">
                                 <label for="createCountry" class="form-check-label">Create</label>
                             </div>
 
                             <div class="form-check me-4">
                                 <input id="deleteCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Delete Course">
+                                    value="Delete Job">
                                 <label for="deleteCountry" class="form-check-label">Delete</label>
                             </div>
                         </div>
@@ -200,36 +249,36 @@
 
                             <div class="form-check me-4">
                                 <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="View Student">
+                                    value="View Applicant">
                                 <label for="viewCountry" class="form-check-label">View</label>
                             </div>
 
                             <div class="form-check me-4">
                                 <input id="editCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Edit Student">
+                                    value="Edit Applicant">
                                 <label for="editCountry" class="form-check-label">Edit</label>
                             </div>
 
                             <div class="form-check me-4">
                                 <input id="createCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Create Student">
+                                    value="Create Applicant">
                                 <label for="createCountry" class="form-check-label">Create</label>
                             </div>
 
                             <div class="form-check me-4">
                                 <input id="deleteCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Delete Student">
+                                    value="Delete Applicant">
                                 <label for="deleteCountry" class="form-check-label">Delete</label>
                             </div>
                         </div>
                     </div>
                     <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
-                        <h5 class="fw-semibold mb-0">Partner Student Management</h5>
+                        <h5 class="fw-semibold mb-0">Partner Applicant Management</h5>
                         <div class="d-flex justify-content-start flex-wrap ">
 
                             <div class="form-check me-4">
                                 <input id="viewCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="View Partner Student">
+                                    value="View Partner Applicant">
                                 <label for="viewCountry" class="form-check-label">View</label>
                             </div>
 
@@ -240,7 +289,7 @@
                             </div>
                             <div class="form-check me-4">
                                 <input id="deleteCountry" class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                                    value="Delete Partner Student">
+                                    value="Delete Partner Applicant">
                                 <label for="deleteCountry" class="form-check-label">Delete</label>
                             </div>
                         </div>

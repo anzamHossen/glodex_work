@@ -14,12 +14,12 @@
                        <div class="card-header border-bottom border-dashed d-flex align-items-center justify-content-between">
                             <h4 class="header-title mb-0">Country List</h4>
                             <div class="d-flex items-center gap-2">
-                                {{-- @can('Create Country') --}}
+                                @can('Create Country')
                                 <a href="{{ route('add_new_country') }}" class="btn btn-sm glodex-blue-btn">
                                     <i class="ti ti-plus" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Add New
                                 </a>
-                                {{-- @endcan --}}
+                                @endcan
                                 <a href="#" class="btn btn-sm glodex-blue-btn" id="addNewCountryBtn">
                                     <i class="ti ti-rotate me-2"></i>
                                     Refresh
@@ -69,25 +69,25 @@
                                                     <i class="ti ti-dots-vertical"></i>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    {{-- @can('View University') --}}
+                                                    @can('View Company')
                                                     <li>
                                                         <a class="dropdown-item" href="{{ url('/admin/search-company-name') }}?country_id={{ $country->id }}&company_name=" target="_blank"><i class="ti ti-brand-abstract me-2"></i>Companies</a>
                                                     </li>
-                                                    {{-- @endcan --}}
-                                                    {{-- @can('View Course') --}}
+                                                    @endcan
+                                                    @can('View Job')
                                                     <li>
                                                         <a class="dropdown-item" href="#" target="_blank">
                                                             <i class="ti ti-book-2 me-2"></i> Jobs
                                                         </a>
                                                     </li>
-                                                    {{-- @endcan --}}
-                                                    {{-- @can('View Country') --}}
+                                                    @endcan
+                                                    @can('View Country')
                                                     <li><a class="dropdown-item" href="{{ route('country_details', $country->id) }}"><i class="ti ti-map-pin me-2"></i> Country Details</a></li>
-                                                    {{-- @endcan --}}
-                                                    {{-- @can('Edit Country') --}}
+                                                    @endcan
+                                                    @can('Edit Country')
                                                     <li><a class="dropdown-item" href="{{ route('edit_country', $country->id) }}"><i class="ti ti-edit me-2"></i> Edit</a></li>
-                                                    {{-- @endcan --}}
-                                                    {{-- @can('Delete Country') --}}
+                                                    @endcan
+                                                    @can('Delete Country')
                                                     <li>
                                                         <a class="dropdown-item" href="#"  onclick="confirmDelete({{ $country->id }})"><i class="ti ti-trash me-2"></i> Delete</a>
                                                         <form id="delete-country-form-{{ $country->id }}" method="POST" style="display: none;">
@@ -95,7 +95,7 @@
                                                             @method('DELETE')
                                                         </form>
                                                     </li>
-                                                    {{-- @endcan --}}
+                                                    @endcan
                                                 </ul>
                                             </div>
                                             <div class="glodex-country-list-img position-relative overflow-hidden">

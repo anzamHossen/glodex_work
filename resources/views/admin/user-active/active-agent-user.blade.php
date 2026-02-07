@@ -58,13 +58,15 @@
                                                             <a href="{{ route('user_profile', $user->id) }}" class="dropdown-item d-flex align-items-center gap-1" title="Profile">
                                                                 <i class="ti ti-users ti-md"></i> <span>Profile</span>
                                                             </a>
-
+                                                            @can('Delete Agent')
                                                             <a href="javascript:void(0);" 
-                                                            onclick="confirmDelete({{ $user->id }})" 
-                                                            class="dropdown-item d-flex align-items-center gap-1" 
-                                                            title="Delete">
+                                                                onclick="confirmDelete({{ $user->id }})" 
+                                                                class="dropdown-item d-flex align-items-center gap-1" 
+                                                                title="Delete">
                                                                 <i class="ti ti-trash ti-md"></i> <span>Delete</span>
                                                             </a>
+                                                            @endcan
+                                                            @can('Approval Agent')
                                                             <a href="{{ route('update_user_status', $user->id) }}"
                                                                 class="dropdown-item d-flex align-items-center gap-1"
                                                                 title="{{ $user->user_status == 1 ? 'Approve' : 'Pending' }}">
@@ -76,6 +78,7 @@
                                                                     <span>Pending</span>
                                                                 @endif
                                                             </a>
+                                                            @endcan
                                                         </div>
                                                     </div>
                                                     <form id="delete-user-form" method="POST" style="display: none;">

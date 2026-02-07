@@ -11,9 +11,11 @@
                         {{-- HEADER --}}
                         <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Roles</h4>
+                            @can('Assign Role')
                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assignRoleModal">
                                 <i class="ti ti-plus me-1"></i> Assign Role
                             </button>
+                            @endcan
                         </div>
 
                         {{-- BODY --}}
@@ -44,19 +46,19 @@
                                 @endforeach
 
                                 {{-- ADD NEW ROLE CARD --}}
-                                @can('Create Roles')
                                 <div class="col-lg-4 col-md-6">
                                     <div class="card h-100 d-flex align-items-center justify-content-center shadow-sm border-start border-primary mb-0"
                                         style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#rolePermissionModal">
                                         <div class="card-body w-100 p-x-4 py-3 ">
+                                            @can('Create Role')
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div style="font-size:32px">👩‍💼</div>
                                                 <button class="btn btn-primary">Add New Role</button>
                                             </div>
+                                            @endcan
                                         </div>
                                     </div>
                                 </div>
-                                @endcan
                             </div>
                         </div>
                     </div>
@@ -72,7 +74,7 @@
     <div class="modal fade" id="assignRoleModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-
+                
                 <div class="modal-header">
                     <h5 class="modal-title">Assign Role</h5>
                     <button class="btn-close" data-bs-dismiss="modal"></button>

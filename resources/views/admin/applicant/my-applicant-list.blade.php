@@ -50,18 +50,18 @@
                                                         </button>
 
                                                         <div class="dropdown-menu">
-                                                            {{-- @can('Edit Student') --}}
+                                                            @can('Edit Applicant')
                                                             <a href="{{ route('edit_applicant', $applicant->id) }}" class="dropdown-item d-flex align-items-center gap-1" title="Login As">
                                                                 <i class="ti ti-edit ti-md"></i> <span>Edit</span>
                                                             </a>
-                                                            {{-- @endcan --}}
-                                                            {{-- @can('Delete Applicant') --}}
+                                                            @endcan
+                                                            @can('Delete Applicant')
                                                              <a class="dropdown-item" href="#"  onclick="confirmDelete({{ $applicant->id }})"><i class="ti ti-trash me-2"></i> Delete</a>
                                                             <form id="delete-applicant-form-{{ $applicant->id }}" method="POST" style="display: none;">
                                                                 @csrf
                                                                 @method('DELETE')
                                                             </form>
-                                                            {{-- @endcan --}}
+                                                            @endcan
                                                         </div>
                                                     </div>
                                                 </td>

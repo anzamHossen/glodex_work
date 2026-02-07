@@ -17,12 +17,12 @@
                                     <i class="ti ti-arrow-back-up" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Go Back 
                                 </a>
-                                {{-- @can('Create Application') --}}
+                                @can('Create Application')
                                 <a href="{{ route('job_list') }}" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#centermodal">
                                     <i class="ti ti-plus" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Add New
                                 </a>
-                                {{-- @endcan --}}
+                                @endcan
                             </div>
                         </div>
                         <div class="card-body">
@@ -56,7 +56,7 @@
                                                         </button>
 
                                                         <div class="dropdown-menu">
-                                                            {{-- @can('Edit Application') --}}
+                                                            @can('Edit Application')
                                                             <li>
                                                                 <a class="dropdown-item d-flex align-items-center gap-1" href="{{ $application->applicant
                                                                     ? route('edit_application', [
@@ -68,7 +68,7 @@
                                                                     <i class="ti ti-edit"></i> Edit
                                                                 </a>
                                                             </li>
-                                                            {{-- @endcan --}}
+                                                            @endcan
 
                                                             {{-- <a href="javascript:void(0);" 
                                                                 onclick="confirmDelete()" 

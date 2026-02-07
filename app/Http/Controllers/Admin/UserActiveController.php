@@ -45,12 +45,12 @@ class UserActiveController extends Controller
     {
         $authUser = auth()->user();
 
-        $pendingStudentUsers = User::with(['creator', 'studentInfo.createdBy'])
+        $pendingStudentUsers = User::with(['creator', 'applicantInfo.createdBy'])
             ->where('user_type', 3) // Student
             ->where('user_status', 1)
             ->when($authUser->hasRole('BDM'), function ($query) use ($authUser) {
                 // 🔹 BDM → students created by agents under this BDM
-                $query->whereHas('studentInfo.createdBy', function ($q) use ($authUser) {
+                $query->whereHas('applicantInfo.createdBy', function ($q) use ($authUser) {
                     $q->where('created_by', $authUser->id); // agent.created_by = BDM id
                 });
             })
@@ -133,21 +133,21 @@ class UserActiveController extends Controller
     }
 
 
-public function activeLawyerUser()
-{
-    $activeLawyerUsers = User::with(['creator', 'companies.country'])
-        ->where('user_type', 4)
-        ->where('user_status', 2)
-        ->orderBy('id', 'desc')
-        ->get()
-        ->map(function ($user) {
-            $user->user_type_label = 'Lawyer';
-            $user->created_by_name = $user->creator ? $user->creator->name : 'Self Registered';
-            return $user;
-        });
+    public function activeLawyerUser()
+    {
+        $activeLawyerUsers = User::with(['creator', 'companies.country'])
+            ->where('user_type', 4)
+            ->where('user_status', 2)
+            ->orderBy('id', 'desc')
+            ->get()
+            ->map(function ($user) {
+                $user->user_type_label = 'Lawyer';
+                $user->created_by_name = $user->creator ? $user->creator->name : 'Self Registered';
+                return $user;
+            });
 
-    return view('admin.user-active.active-lawyer-user', compact('activeLawyerUsers'));
-}
+        return view('admin.user-active.active-lawyer-user', compact('activeLawyerUsers'));
+    }
 
 
     
