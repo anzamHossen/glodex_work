@@ -27,6 +27,25 @@ class ApplicantController extends Controller
         return view('admin.applicant.my-applicant-list', compact('applicants'));
     }
 
+    // function to show agent applicant list 
+    public function applicantListAgent()
+    {
+        $authUser = auth()->user();
+
+        $applicants = Applicant::with('createdBy')
+            ->whereHas('createdBy', function ($query) use ($authUser) {
+                $query->where('user_type', 2); // Only agents
+
+                // BDM → filter agents created by him
+                if ($authUser->hasRole('BDM')) {
+                    $query->where('created_by', $authUser->id);
+                }
+            })
+            ->get();
+
+        return view('admin.applicant.applicant-list-agent', compact('applicants'));
+    }
+
 
     // function to show add new applicant page
     public function addNewApplicant()

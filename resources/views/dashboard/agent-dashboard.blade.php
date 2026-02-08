@@ -41,14 +41,14 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total University</h5>
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Company</h5>
                                     <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                         <div class="user-img fs-42 flex-shrink-0">
                                             <span class="avatar-title text-bg-primary rounded-circle fs-22">
                                                 <i class="ti ti-universe"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">0</h3>
+                                        <h3 class="mb-0 fw-bold">{{ $agentTotalCompanies ?? 0 }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -57,14 +57,14 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Course</h5>
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Job</h5>
                                     <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                         <div class="user-img fs-42 flex-shrink-0">
                                             <span class="avatar-title text-bg-primary rounded-circle fs-22">
                                                 <i class="ti ti-book"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">0</h3>
+                                        <h3 class="mb-0 fw-bold">{{ $agentTotalJobs ?? 0 }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -72,14 +72,14 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Student</h5>
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Applicant</h5>
                                     <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                         <div class="user-img fs-42 flex-shrink-0">
                                             <span class="avatar-title text-bg-primary rounded-circle fs-22">
                                                 <i class="ti ti-user-check"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">0</h3>
+                                        <h3 class="mb-0 fw-bold">{{ $agentTotalApplicants ?? 0 }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@
                                                 <i class="ti ti-brand-redux"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">0</h3>
+                                        <h3 class="mb-0 fw-bold">{{ $agentTotalApplications }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                                 <i class="ti ti-users-group"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">0</h3>
+                                        <h3 class="mb-0 fw-bold">{{ $AgentInProgressApplication }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                                                 <i class="ti ti-circle-check"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">0</h3>
+                                        <h3 class="mb-0 fw-bold">{{ $agentTotalVisaGranted ?? 0 }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
                                                 <i class="ti ti-pentagon-x"></i>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">0</h3>
+                                        <h3 class="mb-0 fw-bold">{{ $agentTotalVisaRejected ?? 0 }}</h3>
                                     </div>
                                 </div>
                             </div>

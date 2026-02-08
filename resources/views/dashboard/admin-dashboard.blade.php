@@ -7,8 +7,8 @@
         <!-- Start Page Content here -->
         <!-- ============================================================== -->
         {{-- Dasboard for  super admin--}}
+        @if($isSuperAdmin)
             <div class="page-container">
-
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
@@ -42,14 +42,14 @@
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total University</h5>
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Company</h5>
                                         <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                             <div class="user-img fs-42 flex-shrink-0">
                                                 <span class="avatar-title text-bg-primary rounded-circle fs-22">
                                                     <i class="ti ti-universe"></i>
                                                 </span>
                                             </div>
-                                            <h3 class="mb-0 fw-bold">{{ $totalUniversities ?? 0 }}</h3>
+                                            <h3 class="mb-0 fw-bold">{{ $totalCompanies ?? 0 }}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -58,14 +58,14 @@
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Course</h5>
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Job</h5>
                                         <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                             <div class="user-img fs-42 flex-shrink-0">
                                                 <span class="avatar-title text-bg-primary rounded-circle fs-22">
                                                     <i class="ti ti-book"></i>
                                                 </span>
                                             </div>
-                                            <h3 class="mb-0 fw-bold">{{ $totalCourses ?? 0}}</h3>
+                                            <h3 class="mb-0 fw-bold">{{ $totalJobs ?? 0}}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -73,14 +73,14 @@
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Student</h5>
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Applicant</h5>
                                         <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                             <div class="user-img fs-42 flex-shrink-0">
                                                 <span class="avatar-title text-bg-primary rounded-circle fs-22">
                                                     <i class="ti ti-user-check"></i>
                                                 </span>
                                             </div>
-                                            <h3 class="mb-0 fw-bold">{{ $totalStudents ?? 0}}</h3>
+                                            <h3 class="mb-0 fw-bold">{{ $totalAplicants ?? 0}}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -272,6 +272,535 @@
                 </div> <!-- end row-->
 
             </div>
+        @elseif('BDM')
+            <div class="page-container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
+                            <div class="flex-grow-1">
+                                <h4 class="fs-18 fw-semibold m-0">Dashboard</h4>
+                            </div>
+                        </div><!-- end card header -->
+                    </div>
+                    <!--end col-->
+                </div> <!-- end row-->
+
+                <div class="row">
+                    <div class="col">
+                        <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1 text-center">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Country</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-flag-heart"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">{{ $totalCountries ?? 0 }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Company</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-universe"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">{{ $totalCompanies ?? 0 }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Job</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-book"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">{{ $totalJobs ?? 0}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Applicant</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-user-check"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">{{ $totalPartnerApplicants ?? 0}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Active Agent</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-users-group"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">{{ $totalPartnerCreated ?? 0 }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Application</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-brand-redux"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">{{ $totalPartnerApplications ?? 0}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Visa Granted</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-circle-check"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">{{ $totalPartnerVisaGranted ?? 0}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Visa Rejected</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-pentagon-x"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">{{ $totalPartnerVisaRejected ?? 0}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+
+                        {{-- <div class="row">
+                            <div class="col-xxl-8">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h4 class="header-title">Overview</h4>
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle drop-arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-light bg-opacity-50">
+                                        <div class="row text-center">
+                                            <div class="col-md-3 col-6">
+                                                <p class="text-muted mt-3 mb-1">Revenue</p>
+                                                <h4 class="mb-3">
+                                                    <span class="ti ti-square-rounded-arrow-down text-success me-1"></span>
+                                                    <span>$29.5k</span>
+                                                </h4>
+                                            </div>
+                                            <div class="col-md-3 col-6">
+                                                <p class="text-muted mt-3 mb-1">Expenses</p>
+                                                <h4 class="mb-3">
+                                                    <span class="ti ti-square-rounded-arrow-up text-danger me-1"></span>
+                                                    <span>$15.07k</span>
+                                                </h4>
+                                            </div>
+                                            <div class="col-md-3 col-6">
+                                                <p class="text-muted mt-3 mb-1">Investment</p>
+                                                <h4 class="mb-3">
+                                                    <span class="ti ti-chart-infographic me-1"></span>
+                                                    <span>$3.6k</span>
+                                                </h4>
+                                            </div>
+                                            <div class="col-md-3 col-6">
+                                                <p class="text-muted mt-3 mb-1">Savings</p>
+                                                <h4 class="mb-3">
+                                                    <span class="ti ti-pig me-1"></span>
+                                                    <span>$6.9k</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body pt-0">
+                                        <div dir="ltr">
+                                            <div id="revenue-chart" class="apex-charts" data-colors="#6ac75a,#465dff,#783bff,#f7577e"></div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+
+                            <div class="col-xxl-4">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center border-bottom border-dashed">
+                                        <h4 class="header-title">Top Traffic by Source</h4>
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
+                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div id="multiple-radialbar" class="apex-charts" data-colors="#465dff,#6ac75a,#783bff,#f7577e"></div>
+
+                                        <div class="row mt-2">
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center p-1">
+                                                    <div>
+                                                        <i class="ti ti-circle-filled fs-12 align-middle me-1 text-primary"></i>
+                                                        <span class="align-middle fw-semibold">Direct</span>
+                                                    </div>
+                                                    <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-down text-danger"></i> 965</span>
+                                                </div>
+
+                                                <div class="d-flex justify-content-between align-items-center p-1">
+                                                    <div>
+                                                        <i class="ti ti-circle-filled fs-12 text-success align-middle me-1"></i>
+                                                        <span class="align-middle fw-semibold">Social</span>
+                                                    </div>
+                                                    <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-up text-success"></i> 75</span>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center p-1">
+                                                    <div>
+                                                        <i class="ti ti-circle-filled fs-12 text-secondary align-middle me-1"></i>
+                                                        <span class="align-middle fw-semibold"> Marketing</span>
+                                                    </div>
+                                                    <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-up text-success"></i> 102</span>
+                                                </div>
+
+                                                <div class="d-flex justify-content-between align-items-center p-1">
+                                                    <div>
+                                                        <i class="ti ti-circle-filled fs-12 text-danger align-middle me-1"></i>
+                                                        <span class="align-middle fw-semibold">Affiliates</span>
+                                                    </div>
+                                                    <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-down text-danger"></i> 96</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                        </div> <!-- end row--> --}}
+                    </div> <!-- end col-->
+                </div> <!-- end row-->
+
+            </div>
+        @else
+            <div class="page-container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
+                            <div class="flex-grow-1">
+                                <h4 class="fs-18 fw-semibold m-0">Dashboard</h4>
+                            </div>
+                        </div><!-- end card header -->
+                    </div>
+                    <!--end col-->
+                </div> <!-- end row-->
+
+                <div class="row">
+                    <div class="col">
+                        <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1 text-center">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Country</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-flag-heart"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Company</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-universe"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Job</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-book"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Applicant</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-user-check"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Active Agent</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-users-group"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Application</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-brand-redux"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Visa Granted</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-circle-check"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Visa Rejected</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-pentagon-x"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+
+                        {{-- <div class="row">
+                            <div class="col-xxl-8">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h4 class="header-title">Overview</h4>
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle drop-arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-light bg-opacity-50">
+                                        <div class="row text-center">
+                                            <div class="col-md-3 col-6">
+                                                <p class="text-muted mt-3 mb-1">Revenue</p>
+                                                <h4 class="mb-3">
+                                                    <span class="ti ti-square-rounded-arrow-down text-success me-1"></span>
+                                                    <span>$29.5k</span>
+                                                </h4>
+                                            </div>
+                                            <div class="col-md-3 col-6">
+                                                <p class="text-muted mt-3 mb-1">Expenses</p>
+                                                <h4 class="mb-3">
+                                                    <span class="ti ti-square-rounded-arrow-up text-danger me-1"></span>
+                                                    <span>$15.07k</span>
+                                                </h4>
+                                            </div>
+                                            <div class="col-md-3 col-6">
+                                                <p class="text-muted mt-3 mb-1">Investment</p>
+                                                <h4 class="mb-3">
+                                                    <span class="ti ti-chart-infographic me-1"></span>
+                                                    <span>$3.6k</span>
+                                                </h4>
+                                            </div>
+                                            <div class="col-md-3 col-6">
+                                                <p class="text-muted mt-3 mb-1">Savings</p>
+                                                <h4 class="mb-3">
+                                                    <span class="ti ti-pig me-1"></span>
+                                                    <span>$6.9k</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body pt-0">
+                                        <div dir="ltr">
+                                            <div id="revenue-chart" class="apex-charts" data-colors="#6ac75a,#465dff,#783bff,#f7577e"></div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+
+                            <div class="col-xxl-4">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center border-bottom border-dashed">
+                                        <h4 class="header-title">Top Traffic by Source</h4>
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
+                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div id="multiple-radialbar" class="apex-charts" data-colors="#465dff,#6ac75a,#783bff,#f7577e"></div>
+
+                                        <div class="row mt-2">
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center p-1">
+                                                    <div>
+                                                        <i class="ti ti-circle-filled fs-12 align-middle me-1 text-primary"></i>
+                                                        <span class="align-middle fw-semibold">Direct</span>
+                                                    </div>
+                                                    <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-down text-danger"></i> 965</span>
+                                                </div>
+
+                                                <div class="d-flex justify-content-between align-items-center p-1">
+                                                    <div>
+                                                        <i class="ti ti-circle-filled fs-12 text-success align-middle me-1"></i>
+                                                        <span class="align-middle fw-semibold">Social</span>
+                                                    </div>
+                                                    <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-up text-success"></i> 75</span>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="d-flex justify-content-between align-items-center p-1">
+                                                    <div>
+                                                        <i class="ti ti-circle-filled fs-12 text-secondary align-middle me-1"></i>
+                                                        <span class="align-middle fw-semibold"> Marketing</span>
+                                                    </div>
+                                                    <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-up text-success"></i> 102</span>
+                                                </div>
+
+                                                <div class="d-flex justify-content-between align-items-center p-1">
+                                                    <div>
+                                                        <i class="ti ti-circle-filled fs-12 text-danger align-middle me-1"></i>
+                                                        <span class="align-middle fw-semibold">Affiliates</span>
+                                                    </div>
+                                                    <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-down text-danger"></i> 96</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                        </div> <!-- end row--> --}}
+                    </div> <!-- end col-->
+                </div> <!-- end row-->
+            </div>
+        @endif
             <!-- container -->          
         <!-- ============================================================== -->
         <!-- End Page content -->

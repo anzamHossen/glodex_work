@@ -62,13 +62,13 @@ class UserActiveController extends Controller
                 $user->user_type_label = 'Applicant';
 
                 if (
-                    $user->studentInfo &&
-                    $user->studentInfo->createdBy
+                    $user->applicantInfo &&
+                    $user->applicantInfo->createdBy
                 ) {
                     // Agent name (or company if exists)
                     $user->created_by_name =
-                        $user->studentInfo->company_name
-                        ?? $user->studentInfo->createdBy->name;
+                        $user->applicantInfo->company_name
+                        ?? $user->applicantInfo->createdBy->name;
                 } else {
                     $user->created_by_name = 'Self Registered';
                 }

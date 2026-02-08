@@ -192,6 +192,13 @@
                         </a>
                     </li>
                     @endcan
+                    @can('View Partner Applicant')
+                    <li class="side-nav-item">
+                        <a href="{{ route('applicant_list_agent') }}" class="side-nav-link">
+                            <span class="menu-text">Agent Applicant</span>
+                        </a>
+                    </li>
+                    @endcan
                 </ul>
             </div>
         </li>
@@ -227,6 +234,7 @@
             </a>
         </li>
         @endcan
+        @can('View Role')
         <li class="side-nav-item">
            <a data-bs-toggle="collapse" href="#sidebarRolePermission" aria-expanded="false" aria-controls="sidebarRolePermission" class="side-nav-link">
                 <span class="menu-icon"><i class="ti ti-lock-off"></i></span>
@@ -252,7 +260,7 @@
                 </ul>
             </div>
         </li>
-        {{-- @endcan --}}
+        @endcan
     </ul>
     <div class="clearfix"></div>
 </div>

@@ -11,7 +11,7 @@
                         {{-- HEADER --}}
                         <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Roles</h4>
-                            @can('Assign Role')
+                            @can('View Role')
                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assignRoleModal">
                                 <i class="ti ti-plus me-1"></i> Assign Role
                             </button>

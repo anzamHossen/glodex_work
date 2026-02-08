@@ -14,7 +14,7 @@
                                     <i class="ti ti-arrow-back-up" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Go Back 
                                 </a>
-                                @can('Create Partner')
+                                @can('Create Agent')
                                 <a href="{{ route('admin_dashboard') }}" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#centermodal">
                                     <i class="ti ti-plus" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Add New

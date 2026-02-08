@@ -126,6 +126,7 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     // Route for applicant
     Route::controller(ApplicantController::class)->group(function () {
         Route::get('/my-applicant-list', 'myApplicantList')->name('my_applicant_list');    
+        Route::get('/applicant-list-agent', 'applicantListAgent')->name('applicant_list_agent');    
         Route::get('/add-new-applicant', 'addNewApplicant')->name('add_new_applicant');
         Route::post('/save-new-applicant', 'saveNewApplicant')->name('save_new_applicant');
         Route::get('/edit-applicant/{id}', 'editApplicant')->name('edit_applicant');
