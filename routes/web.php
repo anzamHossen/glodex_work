@@ -138,7 +138,6 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::get('/my-application-list', 'myApplicationList')->name('my_application_list');
         Route::get('/application-list-agent', 'applicationListAgent')->name('application_list_agent');
         Route::get('/all-application', 'allApplication')->name('all_application');
-
         Route::get('/add-application-new-applicant/{job_id}', 'addApplicationNewApplicant')->name('add_application_new_applicant');
         Route::post('/save-application-new-applicant', 'saveApplicationNewApplicant')->name('save_application_new_applicant');
         Route::get('/add-application-existing-applicant/{job_id}/{applicant_id}', 'addApplicationEixApplicant')->name('add_application_eix_applicant');
@@ -202,7 +201,6 @@ Route::prefix('agent')->middleware(['agent'])->group(function () {
         Route::get('/agent-edit-application/{id}/{job_id}/{applicant_id}', 'agentEditApplication')->name('agent_edit_application');
         Route::post('/agent-update-application/{id}', 'agentUpdateApplication')->name('agent_update_application');
     });
-
 });
 
 Route::prefix('applicant')->middleware(['applicant'])->group(function () {

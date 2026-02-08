@@ -17,10 +17,14 @@
                                     <i class="ti ti-arrow-back-up" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Go Back 
                                 </a>
-                                <a href="{{ route('job_list') }}" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#centermodal">
+                                <a href="{{ route('agent_job_list') }}" class="btn btn-sm btn-primary me-2">
                                     <i class="ti ti-plus" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
                                     Add New
                                 </a>
+                                {{-- <a href="{{ route('agent_job_list') }}" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#centermodal">
+                                    <i class="ti ti-plus" style="margin-right:3px; font-size: 1.3rem; margin-bottom: 1px"></i>
+                                    Add New
+                                </a> --}}
                             </div>
                         </div>
                         <div class="card-body">

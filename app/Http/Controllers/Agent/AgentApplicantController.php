@@ -139,7 +139,7 @@ class AgentApplicantController extends Controller
         return redirect()->back();
         }catch (\Exception $e) {
             DB::rollBack();
-              dd($e);
+            //   dd($e);
             Alert::error('Error', 'Failed to save applicant, Try Again');
             return redirect()->back();
         }

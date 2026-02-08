@@ -162,7 +162,7 @@ class AgentApplicationController extends Controller
                 'user_id' => Auth::id(),
                 'job_id' => $job->id,
                 'applicant_id' => $applicantInfo->id,
-                'sent_by' => Auth::user()->organization_name ?? 'N/A',
+                'sent_by' => Auth::user()->organization_name ?? 'Not Added',
                 'application_code' => rand(100000, 999999),
                 'created_by' => Auth::id(),
                 'going_year' => $request->going_year,
@@ -226,7 +226,7 @@ class AgentApplicationController extends Controller
             'permanent_address' => 'required|string',
             'gender'            => 'required',
             'going_year'        => 'required',
-            'job_id'  => 'required|exists:company_jobs,id',
+            'job_id'            => 'required|exists:company_jobs,id',
         ]);
 
         DB::beginTransaction();
@@ -319,7 +319,7 @@ class AgentApplicationController extends Controller
                 'user_id' => Auth::id(),
                 'job_id' => $job->id,
                 'applicant_id' => $applicantInfo->id,
-                'sent_by' => Auth::user()->organization_name ?? 'N/A',
+                'sent_by' => Auth::user()->organization_name ?? 'Not Added',
                 'application_code' => rand(100000, 999999),
                 'created_by' => Auth::id(),
                 'going_year' => $request->going_year,

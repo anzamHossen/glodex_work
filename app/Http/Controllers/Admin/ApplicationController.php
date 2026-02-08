@@ -40,12 +40,23 @@ class ApplicationController extends Controller
 
 
     // function to show application list for agent
-    public function applicationListAgent()
+   public function applicationListAgent()
     {
-        $applications = Application::with(['student', 'course.country', 'course.university', 'applicationStatus'])
-            ->whereHas('createdBy', function ($query) {
-                $query->where('user_type', 2);
-            })->orderBy('id', 'desc')->get();
+        $authUser = auth()->user();
+
+        $applications = Application::with(['applicant','job.country','job.company','applicationStatus','createdBy'])
+            ->whereHas('createdBy', function ($q) use ($authUser) {
+                $q->where('user_type', 2); // only Agent applications
+
+                // If BDM → only agents created by this BDM
+                if ($authUser->hasRole('BDM')) {
+                    $q->where('created_by', $authUser->id);
+                }
+            })
+            // SuperAdmin → no extra filter
+            ->orderBy('id', 'desc')
+            ->get();
+
         return view('admin.application.application-list-agent', compact('applications'));
     }
 
@@ -54,7 +65,7 @@ class ApplicationController extends Controller
     {
         $authUser = auth()->user();
 
-        $applications = Application::with(['student', 'course.country', 'course.university', 'applicationStatus', 'createdBy'
+        $applications = Application::with(['job', 'job.country', 'job.company', 'applicationStatus', 'createdBy'
             ])->when($authUser->hasRole('BDM'), function ($query) use ($authUser) {
                 // BDM only applications submitted by agents created by user
                 $query->whereHas('createdBy', function ($q) use ($authUser) {
@@ -221,27 +232,8 @@ class ApplicationController extends Controller
             return redirect()->back()->withInput();
         }
     }
-
-    // function to add application for existing student
-    // public function addApplicationEixApplicant($job_id, $applicant_id)
-    // {
-    //     $applicationExists = Application::where('job_id', $job_id)
-    //     ->where('applicant_id', $applicant_id)
-    //     ->exists();
-
-    //     if ($applicationExists) {
-    //         Alert::error('Error', 'In this job the applicant application in progress');
-    //         return redirect()->back();
-    //     }
-
-    //     $job                    = CompanyJob::find($job_id);
-    //     $applicant              = Applicant::find($applicant_id);
-    //     $applicationStatus      = ApplicationStatus::all();
-    //     $englishTests           = json_decode($applicant->english_proficiency, true) ?? [];
-    //     $academicQualifications = json_decode($applicant->academic_qualifications, true) ?? [];
-    //     return view('admin.application.add-application-existing-applicant', compact('job','applicant','applicationStatus','englishTests','academicQualifications'));
-    // }
-
+    
+    // Function to show exsiting application list
     public function addApplicationEixApplicant($job_id, $applicant_id)
     {
         // Find job & applicant
@@ -413,36 +405,7 @@ class ApplicationController extends Controller
         }
     }
 
-    // function to edit application
-    // public function editApplication($id, $job_id, $applicant_id)
-    // {
-    //     $application = Application::find($id);
-
-    //     if (!$application) {
-    //     Alert::error('Error', 'Application not found.');
-    //     return redirect()->back();
-    //     }
-
-    //     $job = CompanyJob::find($job_id);
-
-    //     if (!$job) {
-    //         Alert::error('Error', 'Job not found..');
-    //         return redirect()->back();
-    //     }
-
-    //     if (!$applicant_id || !Applicant::find($applicant_id)) {
-    //          Alert::error('Error', 'Applicant record has been deleted or is invalid.');
-    //     return redirect()->back();
-    //     }
-
-    //     $applicant = Applicant::find($applicant_id);
-    //     $applicationStatus = ApplicationStatus::all();
-    //     $englishTests = json_decode($applicant->english_proficiency, true) ?? [];
-    //     $academicQualifications = json_decode($applicant->academic_qualifications, true) ?? [];
-    //     return view('admin.application.edit-application', compact('application', 'job', 'applicant', 'applicationStatus', 'englishTests', 'academicQualifications'));
-    // }
-
-
+    // Function to edit application
     public function editApplication($id, $job_id, $applicant_id)
     {
         $application = Application::find($id);

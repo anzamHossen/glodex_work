@@ -254,7 +254,7 @@
                         </div>
                     </div>
                     <div class="pb-2 pt-2 border-bottom px-3 d-flex justify-content-between align-items-center">
-                        <h5 class="fw-semibold mb-0">Student Management</h5>
+                        <h5 class="fw-semibold mb-0">Applicant Management</h5>
                         <div class="d-flex justify-content-start flex-wrap ">
 
                             <div class="form-check me-4">
